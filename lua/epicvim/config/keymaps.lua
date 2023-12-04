@@ -282,6 +282,7 @@ mapkey("<leader>vp", gitsigns.preview_hunk, "Preview Hunk")
 mapkey("<leader>vr", gitsigns.reset_hunk, "Reset Hunk")
 mapkey("<leader>vs", gitsigns.stage_hunk, "Stage Hunk")
 mapkey("<leader>vu", gitsigns.undo_stage_hunk, "Undo Stage Hunk")
+mapkey_cm("<leader>vU", "Telescope undo", "View Undo History")
 
 -- Zen Mode <leader>z
 whichkey_defaults["<leader>z"] = { name = "+zen" }
