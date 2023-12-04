@@ -1,3 +1,4 @@
+local wk = require("which-key")
 local bind = require("epicvim.util.function_binder")
 local Telescope = require("telescope.builtin")
 local conform = require("conform")
@@ -290,4 +291,15 @@ mapkey_cm("<leader>zn", "TZNarrow", "Zen Narrow")
 mapkey_cm("<leader>zn", "'<,'>TZNarrow", "Zen Narrow", "v")
 mapkey_cm("<leader>zm", "TZMinimalist", "Zen Minimalist")
 
-return whichkey_defaults
+whichkey_defaults["[{"] = "Prev {"
+whichkey_defaults["[("] = "Prev ("
+whichkey_defaults["[<lt>"] = "Prev <"
+whichkey_defaults["[m"] = "Prev method start"
+whichkey_defaults["[M"] = "Prev method end"
+whichkey_defaults["[%"] = "Prev unmatched group"
+whichkey_defaults["[s"] = "Prev misspelled word"
+whichkey_defaults["<leader>e"] = "End of this Subword"
+whichkey_defaults["<leader>w"] = "Start of next Subword"
+whichkey_defaults["<leader>b"] = "Beginning of this Subword"
+
+wk.register(whichkey_defaults)

@@ -94,4 +94,17 @@ return {
 			require("illuminate").configure({})
 		end,
 	},
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		config = function()
+			require("neo-tree").setup()
+		end,
+	},
+	{ "folke/neoconf.nvim", cmd = "Neoconf" },
+	"folke/neodev.nvim",
+	{
+		"chrisgrieser/nvim-various-textobjs",
+		lazy = false,
+		opts = { useDefaultKeymaps = true },
+	},
 }
