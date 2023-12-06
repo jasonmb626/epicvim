@@ -1,10 +1,27 @@
+--https://stackoverflow.com/questions/9145432/load-lua-files-by-relative-path
+local folderOfThisFile = (...):match("(.-)[^%.]+$")
+
+--https://stackoverflow.com/questions/1426954/split-string-in-lua
+local function split(str, sep)
+	local result = {}
+	local regex = ("([^%s]+)"):format(sep)
+	for each in str:gmatch(regex) do
+		table.insert(result, each)
+	end
+	return result
+end
+
+local splitpath = split(folderOfThisFile, ".")
+table.remove(splitpath)
+local parentpath = table.concat(splitpath, ".") -- parentpath is now one directory up from this file
+
 return {
 	"stevearc/conform.nvim",
 	lazy = true,
 	event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
 	config = function()
 		local conform = require("conform")
-		local format_options = require("epicvim.config.formatting").format_options
+		local format_options = require(parentpath .. ".config.formatting").format_options
 
 		conform.setup({
 			formatters_by_ft = {

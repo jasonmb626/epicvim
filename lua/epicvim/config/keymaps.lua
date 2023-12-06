@@ -1,27 +1,64 @@
+-----------------------------  Define some helper functions --------------------------------------
+--              These are for allowing imports to be based on relative path
+--https://stackoverflow.com/questions/72921364/whats-the-lua-equivalent-of-pythons-endswith
+local function endswith(str, suffix)
+	return str:sub(-#suffix) == suffix
+end
+
+--https://stackoverflow.com/questions/1426954/split-string-in-lua
+local function split(str, sep)
+	local result = {}
+	local regex = ("([^%s]+)"):format(sep)
+	for each in str:gmatch(regex) do
+		table.insert(result, each)
+	end
+	return result
+end
+
+local function get_parent_path(cwd)
+	local splitpath = split(cwd, ".")
+	table.remove(splitpath)
+	return table.concat(splitpath, ".") -- this is now one directory up from cwd in lua format
+end
+
+local function get_revised_cwd(dotdotdot)
+	-- if file ends in init.lua return dotdotdot otherwise go up one "dot"
+	local filename = debug.getinfo(1, "S").source
+	if endswith(filename, "init.lua") then
+		return dotdotdot
+	else
+		return get_parent_path(dotdotdot)
+	end
+end
+
+-----------------------------  Start of actual config --------------------------------------------
+local folder_this_file = get_revised_cwd(...)
+local parent_path = get_parent_path(folder_this_file)
+
 local wk = require("which-key")
-local bind = require("epicvim.util.function_binder")
+local bind = require(parent_path .. ".util.function_binder")
 local Telescope = require("telescope.builtin")
 local conform = require("conform")
 local lint = require("lint")
 local dap = require("dap")
 local dapui = require("dapui")
 local persistence = require("persistence")
-local toggle = require("epicvim.util").toggle
+local toggle = require(parent_path .. ".util").toggle
 local gitsigns = require("gitsigns")
 local neotreecmd = require("neo-tree.command")
-local mapkey = require("epicvim.util.keymapper").mapkey
-local mapkey_cm = require("epicvim.util.keymapper").mapkey_cm
-local buf_kill = require("epicvim.util.buffer").buf_kill
-local toggle_autopairs = require("epicvim.util").toggle_autopairs
-local toggle_ts_highlights = require("epicvim.util").toggle_ts_highlights
-local toggle_autoformatting = require("epicvim.util").toggle_autoformatting
-local toggle_diagnostics = require("epicvim.util").toggle_diagnostics
-local toggle_hardtime = require("epicvim.util").toggle_hardtime
-local toggle_treesitter_context = require("epicvim.util").toggle_treesitter_context
-local set_conceallevel = require("epicvim.util").set_conceallevel
-local toggle_illuminate = require("epicvim.util").toggle_illuminate
+local mapkey = require(parent_path .. ".util.keymapper").mapkey
+local mapkey_cm = require(parent_path .. ".util.keymapper").mapkey_cm
+local buf_kill = require(parent_path .. ".util.buffer").buf_kill
+local toggle_autopairs = require(parent_path .. ".util").toggle_autopairs
+local toggle_ts_highlights = require(parent_path .. ".util").toggle_ts_highlights
+local toggle_autoformatting = require(parent_path .. ".util").toggle_autoformatting
+local toggle_diagnostics = require(parent_path .. ".util").toggle_diagnostics
+local toggle_hardtime = require(parent_path .. ".util").toggle_hardtime
+local toggle_treesitter_context = require(parent_path .. ".util").toggle_treesitter_context
+local set_conceallevel = require(parent_path .. ".util").set_conceallevel
+local toggle_illuminate = require(parent_path .. ".util").toggle_illuminate
 
-local format_options = require("epicvim.config.formatting").format_options
+local format_options = require(parent_path .. ".config.formatting").format_options
 
 local whichkey_defaults = {
 	mode = { "n", "v" },

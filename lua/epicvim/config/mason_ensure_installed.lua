@@ -1,4 +1,7 @@
-local templates = require("epicvim.config.mason_ensure_installed_templates")
+--https://stackoverflow.com/questions/9145432/load-lua-files-by-relative-path
+local pathOfThisFile = ...
+local folderOfThisFile = (...):match("(.-)[^%.]+$")
+local templates = require(folderOfThisFile .. ".mason_ensure_installed_templates")
 local M = {}
 
 --M.lsp = extend_array(templates.lsp.base, templates.lsp.python)
