@@ -339,14 +339,6 @@ vim.keymap.set("n", "<leader>vs", gitsigns.stage_hunk, { desc = "Stage Hunk" })
 vim.keymap.set("n", "<leader>vu", gitsigns.undo_stage_hunk, { desc = "Undo Stage Hunk" })
 vim.keymap.set("n", "<leader>vU", ":Telescope undo<cr>", { desc = "View Undo History" })
 
--- Zen Mode <leader>z
-whichkey_defaults["<leader>z"] = { name = "+zen" }
-vim.keymap.set("n", "<leader>za", ":TZAtaraxis<cr>", { desc = "Zen Ataraxis" })
-vim.keymap.set("n", "<leader>zf", ":TZFocus<cr>", { desc = "Zen Focus" })
-vim.keymap.set("n", "<leader>zn", ":TZNarrow<cr>", { desc = "Zen Narrow" })
-vim.keymap.set("v", "<leader>zn", ":'<,'>TZNarrow<cr>", { desc = "Zen Narrow" })
-vim.keymap.set("n", "<leader>zm", ":TZMinimalist<cr>", { desc = "Zen Minimalist" })
-
 whichkey_defaults["[{"] = "Prev {"
 whichkey_defaults["[("] = "Prev ("
 whichkey_defaults["[<lt>"] = "Prev <"

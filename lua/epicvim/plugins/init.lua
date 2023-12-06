@@ -75,10 +75,6 @@ return {
 		},
 	},
 	{
-		"pocco81/true-zen.nvim",
-		lazy = false,
-	},
-	{
 		"stevearc/dressing.nvim",
 		event = "VeryLazy",
 	},
