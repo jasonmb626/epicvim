@@ -47,7 +47,6 @@ local toggle = require(parent_path .. ".util").toggle
 local gitsigns = require("gitsigns")
 local neotreecmd = require("neo-tree.command")
 local mapkey = require(parent_path .. ".util.keymapper").mapkey
-local mapkey_cm = require(parent_path .. ".util.keymapper").mapkey_cm
 local buf_kill = require(parent_path .. ".util.buffer").buf_kill
 local toggle_autopairs = require(parent_path .. ".util").toggle_autopairs
 local toggle_ts_highlights = require(parent_path .. ".util").toggle_ts_highlights
@@ -81,16 +80,16 @@ mapkey("<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" }, "v")
 
 -- +Next, ]
 whichkey_defaults["]"] = { name = "+next" }
-mapkey_cm("]<tab>", "tabnext", { desc = "Next Tab" })
-mapkey_cm("]b", "BufferLineCycleNext", { desc = "Next buffer" })
+mapkey("]<tab>", ":tabnext<cr>", { desc = "Next Tab" })
+mapkey("]b", ":BufferLineCycleNext<cr>", { desc = "Next buffer" })
 mapkey("]h", gitsigns.next_hunk, { desc = "Next Hunk" })
 mapkey("]q", vim.cmd.cnext, { desc = "Next quickfix" })
 mapkey("]d", vim.diagnostic.goto_next, { desc = "jump to next diagnostic in buffer" })
 
 -- +Prev, [
 whichkey_defaults["["] = { name = "+prev" }
-mapkey_cm("[<tab>", "tabprev", { desc = "Prev Tab" })
-mapkey_cm("[b", "BufferLineCyclePrev", { desc = "Prev buffer" })
+mapkey("[<tab>", ":tabprev<cr>", { desc = "Prev Tab" })
+mapkey("[b", "BufferLineCycleNext", { desc = "Prev buffer" })
 mapkey("[h", gitsigns.prev_hunk, { desc = "Prev Hunk" })
 mapkey("[q", vim.cmd.cprev, { desc = "Prev quickfix" })
 mapkey("[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic in buffer" })
@@ -110,14 +109,14 @@ mapkey("<C-h>", "<C-w>h", { desc = "Navigate Left" })
 mapkey("<C-j>", "<C-w>j", { desc = "Navigate Down" })
 mapkey("<C-k>", "<C-w>k", { desc = "Navigate Up" })
 mapkey("<C-l>", "<C-w>l", { desc = "Navigate Right" })
-mapkey_cm("<C-h>", "wincmd h", { desc = "Navigate Left" }, "t")
-mapkey_cm("<C-j>", "wincmd j", { desc = "Navigate Down" }, "t")
-mapkey_cm("<C-k>", "wincmd k", { desc = "Navigate Up" }, "t")
-mapkey_cm("<C-l>", "wincmd l", { desc = "Navigate Right" }, "t")
-mapkey_cm("<C-h>", "TmuxNavigateLeft", { desc = "Navigate Left" })
-mapkey_cm("<C-j>", "TmuxNavigateDown", { desc = "Navigate Down" })
-mapkey_cm("<C-k>", "TmuxNavigateUp", { desc = "Navigate Up" })
-mapkey_cm("<C-l>", "TmuxNavigateRight", { desc = "Navigate Right" })
+mapkey("<C-h>", ":wincmd h<cr>", { desc = "Navigate Left" }, "t")
+mapkey("<C-j>", ":wincmd j<cr>", { desc = "Navigate Down" }, "t")
+mapkey("<C-k>", ":wincmd k<cr>", { desc = "Navigate Up" }, "t")
+mapkey("<C-l>", ":wincmd l<cr>", { desc = "Navigate Right" }, "t")
+mapkey("<C-h>", ":TmuxNavigateLeft<cr>", { desc = "Navigate Left" })
+mapkey("<C-j>", ":TmuxNavigateDown<cr>", { desc = "Navigate Down" })
+mapkey("<C-k>", ":TmuxNavigateUp<cr>", { desc = "Navigate Up" })
+mapkey("<C-l>", ":TmuxNavigateRight<cr>", { desc = "Navigate Right" })
 
 -- Indenting
 mapkey("<", "<gv", { desc = "Shift Indentation to Left" }, "v")
@@ -127,34 +126,34 @@ mapkey(">", ">gv", { desc = "Shift Indentation to Right" }, "v")
 mapkey("<C-_>", "gcc", { desc = "Toggle Comments" }, { "n", "v" })
 
 -- Easily return to dashboard
-mapkey_cm("<leader>0", "Alpha", { desc = "Intro Dashboard" })
+mapkey("<leader>0", ":Alpha<cr>", { desc = "Intro Dashboard" })
 
 mapkey("<leader>+", "<C-a>", { desc = "Increment Number" })
 mapkey("<leader>_", "<C-x>", { desc = "Decrement Number" })
 
 -- Quick Window Management
-mapkey_cm("<leader>|", "vsplit", { desc = "Split Vertically" })
-mapkey_cm("<leader>-", "split", { desc = "Split Horizontally" })
+mapkey("<leader>|", ":vsplit<cr>", { desc = "Split Vertically" })
+mapkey("<leader>-", ":split<cr>", { desc = "Split Horizontally" })
 
 -- Command history
 mapkey("<leader>:", Telescope.command_history, { desc = "Command History" })
 
 -- Plugins, <leader>P
-mapkey_cm("<leader>P", "Lazy", { desc = "Lazy (Plugin Manager)" })
+mapkey("<leader>P", ":Lazy<cr>", { desc = "Lazy (Plugin Manager)" })
 
 -- spider
-mapkey_cm("<leader>w", "lua require('spider').motion('w')", { desc = "Spider-w" }, { "n", "o", "x" })
-mapkey_cm("<leader>e", "lua require('spider').motion('e')", { desc = "Spider-e" }, { "n", "o", "x" })
-mapkey_cm("<leader>b", "lua require('spider').motion('b')", { desc = "Spider-b" }, { "n", "o", "x" })
+mapkey("<leader>w", ":lua require('spider').motion('w')<cr>", { desc = "Spider-w" }, { "n", "o", "x" })
+mapkey("<leader>e", ":lua require('spider').motion('e')<cr>", { desc = "Spider-e" }, { "n", "o", "x" })
+mapkey("<leader>b", ":lua require('spider').motion('b')<cr>", { desc = "Spider-b" }, { "n", "o", "x" })
 
 -- +Tabs <leader><tab>
 whichkey_defaults["<leader><tab>"] = { name = "+tabs" }
-mapkey_cm("<leader><tab>$", "tablast", { desc = "Last Tab" })
-mapkey_cm("<leader><tab>0", "tabfirst", { desc = "First Tab" })
-mapkey_cm("<leader><tab>n", "tabnew", { desc = "New Tab" })
-mapkey_cm("<leader><tab>l", "tabnext", { desc = "Next Tab" })
-mapkey_cm("<leader><tab>x", "tabclose", { desc = "Close Tab" })
-mapkey_cm("<leader><tab>h", "tabprevious", { desc = "Prev Tab" })
+mapkey("<leader><tab>$", ":tablast<cr>", { desc = "Last Tab" })
+mapkey("<leader><tab>0", ":tabfirst<cr>", { desc = "First Tab" })
+mapkey("<leader><tab>n", ":tabnew<cr>", { desc = "New Tab" })
+mapkey("<leader><tab>l", ":tabnext<cr>", { desc = "Next Tab" })
+mapkey("<leader><tab>x", ":tabclose<cr>", { desc = "Close Tab" })
+mapkey("<leader><tab>h", ":tabprevious<cr>", { desc = "Prev Tab" })
 
 -- +Code Actions <leader>c
 whichkey_defaults["<leader>c"] = { name = "+code actions" }
@@ -164,14 +163,14 @@ mapkey("<leader>cd", Telescope.lsp_document_symbols, { desc = "Document Symbols"
 mapkey("<leader>cf", bind(conform.format, "A", format_options), { desc = "Format" }, { "n", "v" })
 mapkey("<leader>cF", bind(conform.format, "A", fo_injected), { desc = "Format Injected Langs" }, { "n", "v" })
 mapkey("<leader>cL", lint.try_lint, { desc = "Trigger linting for current file" })
-mapkey_cm("<leader>ci", "LspInfo", { desc = "LSP Info" })
+mapkey("<leader>ci", ":LspInfo<cr>", { desc = "LSP Info" })
 mapkey("<leader>cI", vim.show_pos, { desc = "Inspect Pos" })
-mapkey_cm("<leader>cm", "Mason", { desc = "Mason" })
-mapkey_cm("<leader>co", "lopen", { desc = "Location List" })
-mapkey_cm("<leader>cq", "copen", { desc = "Quickfix List" })
+mapkey("<leader>cm", ":Mason<cr>", { desc = "Mason" })
+mapkey("<leader>co", ":lopen<cr>", { desc = "Location List" })
+mapkey("<leader>cq", ":copen<cr>", { desc = "Quickfix List" })
 mapkey("<leader>cQ", Telescope.quickfix, { desc = "Telescope Quickfix" })
 mapkey("<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
-mapkey_cm("<leader>cR", "LspRestart", { desc = "Restart LSP" })
+mapkey("<leader>cR", ":LspRestart<cr>", { desc = "Restart LSP" })
 mapkey("<leader>cw", Telescope.lsp_dynamic_workspace_symbols, { desc = "Workspace Symbols" })
 mapkey("<leader>cW", Telescope.diagnostics, { desc = "Workspace diagnostics" })
 
@@ -203,37 +202,37 @@ whichkey_defaults["<leader>f"] = { name = "+files/buffers" }
 --}
 mapkey("<leader>fb", bind(neotreecmd.execute, "A", { source = "buffers", toggle = true }), { desc = "Buffer explorer" })
 mapkey("<leader>fB", Telescope.buffers, { desc = "Find Buffers" })
-mapkey_cm("<leader>fc", "NvimTreeCollapse", { desc = "Collapse file explorer" })
-mapkey_cm("<leader>fC", "BufferLinePickClose", { desc = "Choose which buffer to close" })
-mapkey_cm("<leader>fD", "BufferLineSortByDirectory", { desc = "Sort by directory" })
-mapkey_cm("<leader>fe", "NvimTreeFindFile", { desc = "File explorer on current file" })
-mapkey_cm("<leader>ff", "NvimTreeToggle", { desc = "Toggle file explorer" })
+mapkey("<leader>fc", ":NvimTreeCollapse<cr>", { desc = "Collapse file explorer" })
+mapkey("<leader>fC", ":BufferLinePickClose<cr>", { desc = "Choose which buffer to close" })
+mapkey("<leader>fD", ":BufferLineSortByDirectory<cr>", { desc = "Sort by directory" })
+mapkey("<leader>fe", ":NvimTreeFindFile<cr>", { desc = "File explorer on current file" })
+mapkey("<leader>ff", ":NvimTreeToggle<cr>", { desc = "Toggle file explorer" })
 mapkey("<leader>fF", Telescope.find_files, { desc = "Find files" })
-mapkey_cm("<leader>fh", "BufferLineCyclePrev", { desc = "Prev buffer" })
-mapkey_cm("<leader>fH", "BufferLineCloseLeft", { desc = "Close all buffers to the left" })
-mapkey_cm("<leader>fj", "BufferLinePick", { desc = "Jump" })
-mapkey_cm("<leader>fl", "BufferLineCycleNext", { desc = "Next buffer" })
-mapkey_cm("<leader>fL", "BufferLineCloseRight", { desc = "Close all buffers to the right" })
-mapkey_cm("<leader>fn", "enew", { desc = "New File/Buffer" })
-mapkey_cm("<leader>fo", "e #", { desc = "Switch to Other Buffer" })
-mapkey_cm("<leader>fO", "BufferLineCloseOthers", { desc = "Delete other buffers" })
-mapkey_cm("<leader>fp", "BufferLineTogglePin", { desc = "Toggle Pin" })
-mapkey_cm("<leader>fP", "BufferLineGroupClose ungrouped", { desc = "Delete non-pinned buffers" })
+mapkey("<leader>fh", ":BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
+mapkey("<leader>fH", ":BufferLineCloseLeft<cr>", { desc = "Close all buffers to the left" })
+mapkey("<leader>fj", ":BufferLinePick<cr>", { desc = "Jump" })
+mapkey("<leader>fl", ":BufferLineCycleNext<cr>", { desc = "Next buffer" })
+mapkey("<leader>fL", ":BufferLineCloseRight<cr>", { desc = "Close all buffers to the right" })
+mapkey("<leader>fn", ":enew<cr>", { desc = "New File/Buffer" })
+mapkey("<leader>fo", ":e #<cr>", { desc = "Switch to Other Buffer" })
+mapkey("<leader>fO", ":BufferLineCloseOthers<cr>", { desc = "Delete other buffers" })
+mapkey("<leader>fp", ":BufferLineTogglePin<cr>", { desc = "Toggle Pin" })
+mapkey("<leader>fP", ":BufferLineGroupClose ungrouped<cr>", { desc = "Delete non-pinned buffers" })
 mapkey("<leader>fr", Telescope.oldfiles, { desc = "Recent files" })
-mapkey_cm("<leader>fT", "BufferLineSortByExtension", { desc = "Sort by type (File extension)" })
-mapkey_cm("<leader>fW", "noautocmd w", { desc = "Save without formatting (no autocmd)" })
+mapkey("<leader>fT", ":BufferLineSortByExtension<cr>", { desc = "Sort by type (File extension)" })
+mapkey("<leader>fW", ":noautocmd w<cr>", { desc = "Save without formatting (no autocmd)" })
 mapkey("<leader>fx", buf_kill, { desc = "Delete Buffer" })
 mapkey("<leader>fX", bind(buf_kill, { desc = "A" }, true), { desc = "Delete Buffer (Force)" })
 
 -- +Go (actions) <leader>g
 whichkey_defaults["<leader>g"] = { name = "+go (actions)" }
-mapkey_cm("<leader>ge", "lua require('spider').motion('ge')", { desc = "Spider-ge" }, { "n", "o", "x" })
+mapkey("<leader>ge", ":lua require('spider').motion('ge')<cr>", { desc = "Spider-ge" }, { "n", "o", "x" })
 
 -- Panes <leader>p
 whichkey_defaults["<leader>p"] = { name = "+panes" }
 mapkey("<leader>p-", "<C-W>s", { desc = "Split pane below", remap = true })
 mapkey("<leader>p|", "<C-W>v", { desc = "Split pane right", remap = true })
-mapkey_cm("<leader>pf", "MaximizerToggle", { desc = "Maximize/Unmaximize pane" })
+mapkey("<leader>pf", ":MaximizerToggle<cr>", { desc = "Maximize/Unmaximize pane" })
 mapkey("<leader>pw", "<C-W>p", { desc = "Other pane", remap = true })
 mapkey("<leader>px", "<C-W>c", { desc = "Delete pane", remap = true })
 mapkey("<leader>p-", "<C-W>s", { desc = "Split pane below", remap = true })
@@ -243,7 +242,7 @@ mapkey("<leader>p|", "<C-W>v", { desc = "Split pane right", remap = true })
 whichkey_defaults["<leader>q"] = { name = "+session" }
 mapkey("<leader>qd", persistence.stop, { desc = "Don't Save Current Session" })
 mapkey("<leader>ql", bind(persistence.load, "A", { last = true }), { desc = "Restore Last Session" })
-mapkey_cm("<leader>qq", "qa", { desc = "Quit all" })
+mapkey("<leader>qq", ":qa<cr>", { desc = "Quit all" })
 mapkey("<leader>qs", persistence.load, { desc = "Restore Session" })
 
 -- +search <leader>s
@@ -262,7 +261,7 @@ mapkey("<leader>sa", Telescope.autocommands, { desc = "Auto Commands" })
 mapkey("<leader>sb", Telescope.current_buffer_fuzzy_find, { desc = "Buffer" })
 mapkey("<leader>sc", Telescope.command_history, { desc = "Command History" })
 mapkey("<leader>sC", Telescope.commands, { desc = "Commands" })
-mapkey_cm("<leader>sd", "Telescope diagnostics bufnr=0", { desc = "Document diagnostics" })
+mapkey("<leader>sd", ":Telescope diagnostics bufnr=0<cr>", { desc = "Document diagnostics" })
 mapkey("<leader>sD", Telescope.diagnostics, { desc = "Workspace diagnostics" })
 mapkey("<leader>sf", Telescope.find_files, { desc = "Find files" })
 mapkey("<leader>sF", grep_in_search_dir, { desc = "Grep (Specify directory)" })
@@ -282,13 +281,13 @@ mapkey("<leader>sr", Telescope.oldfiles, { desc = "Recent" })
 mapkey("<leader>sR", Telescope.resume, { desc = "Resume" })
 mapkey("<leader>ss", Telescope.lsp_document_symbols, { desc = "Goto Symbol (Document)" })
 mapkey("<leader>sS", Telescope.lsp_dynamic_workspace_symbols, { desc = "Goto Symbol (Workspace)" })
-mapkey_cm("<leader>sw", "Telescope grep_string word_match='-w'", { desc = "Word (cwd)" })
-mapkey_cm("<leader>sW", "Telescope grep_string cwd=false word_match='-w'", { desc = "Word (root dir)" })
+mapkey("<leader>sw", ":Telescope grep_string word_match='-w'<cr>", { desc = "Word (cwd)" })
+mapkey("<leader>sW", ":Telescope grep_string cwd=false word_match='-w'<cr>", { desc = "Word (root dir)" })
 
 -- +Set/Toggle Session Features <leader>S
 whichkey_defaults["<leader>S"] = { name = "+Set/Toggle Session Features" }
 mapkey("<leader>Sc", set_conceallevel, { desc = "Set Concellevel" })
-mapkey_cm(
+mapkey(
 	"<leader>SC",
 	bind(Telescope.colorscheme, { desc = "A" }, { enable_preview = true }),
 	{ desc = "Colorscheme with preview" }
@@ -312,31 +311,31 @@ mapkey("<leader>Sw", bind(toggle, "A", "wrap"), { desc = "Toggle Word Wrap" })
 
 -- Version Control <leader>v
 whichkey_defaults["<leader>v"] = { name = "+version control" }
-mapkey_cm("<leader>vb", "Telescope git_branches", { desc = "Checkout branch" })
+mapkey("<leader>vb", ":Telescope git_branches<cr>", { desc = "Checkout branch" })
 mapkey("<leader>vB", gitsigns.blame_line, { desc = "Blame" })
-mapkey_cm("<leader>vC", "Telescope git_bcommits", { desc = "Checkout commit(for current file)" })
-mapkey_cm("<leader>vc", "Telescope git_commits", { desc = "Checkout commit" })
-mapkey_cm("<leader>vd", "Gitsigns diffthis HEAD", { desc = "Git Diff (against head)" })
+mapkey("<leader>vC", ":Telescope git_bcommits<cr>", { desc = "Checkout commit(for current file)" })
+mapkey("<leader>vc", ":Telescope git_commits<cr>", { desc = "Checkout commit" })
+mapkey("<leader>vd", ":Gitsigns diffthis HEAD<cr>", { desc = "Git Diff (against head)" })
 mapkey("<leader>ve", bind(neotreecmd.execute, "A", { source = "git_status", toggle = true }), { desc = "Git explorer" })
-mapkey_cm("<leader>vG", "AdvancedGitSearch", { desc = "Advanced Git Search" })
+mapkey("<leader>vG", ":AdvancedGitSearch<cr>", { desc = "Advanced Git Search" })
 mapkey("<leader>vj", gitsigns.next_hunk, { desc = "Next Hunk" })
 mapkey("<leader>vk", gitsigns.prev_hunk, { desc = "Prev Hunk" })
-mapkey_cm("<leader>vl", "LazyGit", { desc = "Lazygit (cwd)" })
-mapkey_cm("<leader>vL", "LazyGitCurrentFile", { desc = "Lazygit (Current File)" })
+mapkey("<leader>vl", ":LazyGit<cr>", { desc = "Lazygit (cwd)" })
+mapkey("<leader>vL", ":LazyGitCurrentFile<cr>", { desc = "Lazygit (Current File)" })
 mapkey("<leader>vo", Telescope.git_status, { desc = "Open changed file" })
 mapkey("<leader>vp", gitsigns.preview_hunk, { desc = "Preview Hunk" })
 mapkey("<leader>vr", gitsigns.reset_hunk, { desc = "Reset Hunk" })
 mapkey("<leader>vs", gitsigns.stage_hunk, { desc = "Stage Hunk" })
 mapkey("<leader>vu", gitsigns.undo_stage_hunk, { desc = "Undo Stage Hunk" })
-mapkey_cm("<leader>vU", "Telescope undo", { desc = "View Undo History" })
+mapkey("<leader>vU", ":Telescope undo<cr>", { desc = "View Undo History" })
 
 -- Zen Mode <leader>z
 whichkey_defaults["<leader>z"] = { name = "+zen" }
-mapkey_cm("<leader>za", "TZAtaraxis", { desc = "Zen Ataraxis" })
-mapkey_cm("<leader>zf", "TZFocus", { desc = "Zen Focus" })
-mapkey_cm("<leader>zn", "TZNarrow", { desc = "Zen Narrow" })
-mapkey_cm("<leader>zn", "'<,'>TZNarrow{desc = ", " }Zen Narrow", "v")
-mapkey_cm("<leader>zm", "TZMinimalist", { desc = "Zen Minimalist" })
+mapkey("<leader>za", ":TZAtaraxis<cr>", { desc = "Zen Ataraxis" })
+mapkey("<leader>zf", ":TZFocus<cr>", { desc = "Zen Focus" })
+mapkey("<leader>zn", ":TZNarrow<cr>", { desc = "Zen Narrow" })
+mapkey("<leader>zn", ":'<,'>TZNarrow{desc = <cr>", " }Zen Narrow", "v")
+mapkey("<leader>zm", ":TZMinimalist<cr>", { desc = "Zen Minimalist" })
 
 whichkey_defaults["[{"] = "Prev {"
 whichkey_defaults["[("] = "Prev ("

@@ -57,20 +57,4 @@ local mapkey = function(keymaps, command, options, vimmode)
 	vim.keymap.set(mode, lhs, rhs, opts)
 end
 
---- @param keymaps string String
---- @param command (function|string)
---- @param vimmode (table|string|nil)
---- @param options (table|string|nil)
---- @return nil
-local mapkey_cm = function(keymaps, command, options, vimmode)
-	local rhs = get_cmd_string(command)
-	local mode = get_mode(vimmode)
-	for _, v in ipairs(mode) do
-		if mode[v] ~= nil and mode[v] ~= "i" then -- don't let any "command mode" bindings be added in insert mode
-			mode.insert(mode[v])
-		end
-	end
-	mapkey(keymaps, rhs, options, mode)
-end
-
-return { mapkey = mapkey, mapkey_cm = mapkey_cm }
+return { mapkey = mapkey }
