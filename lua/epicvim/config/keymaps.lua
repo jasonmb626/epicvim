@@ -6,9 +6,6 @@ vim.keymap.set("i", "<A-k>", "<esc>:m .-2<cr>==gi", { desc = "Move up" })
 vim.keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
 vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
--- Clear search with <esc>
---vim.keymap.set("<esc>", ":noh<cr><esc>", "Escape and clear hlsearch", { "i", "n" })
-
 -- +Next, ]
 vim.keymap.set("n", "]<tab>", ":tabnext<cr>", { desc = "Next Tab" })
 vim.keymap.set("n", "]q", vim.cmd.cnext, { desc = "Next quickfix" })
@@ -97,6 +94,7 @@ vim.keymap.set("n", "<leader>sK", function()
 	vim.cmd("enew")
 	vim.cmd(":put = execute('verbose map')")
 end, { desc = "Verbose Key Maps" })
+vim.keymap.set("n", "<leader>sx", ":noh<cr><esc>", { desc = "Clear hlsearch" })
 
 -- +Set/Toggle Session Features <leader>S
 vim.keymap.set("n", "<leader>Sc", function()
