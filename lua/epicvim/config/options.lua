@@ -1,5 +1,6 @@
 local opt = vim.opt
 
+vim.g.python3_host_prog = "/home/app/.venv/bin/python3"
 vim.opt.spelllang = "en_us"
 vim.opt.spell = true
 
