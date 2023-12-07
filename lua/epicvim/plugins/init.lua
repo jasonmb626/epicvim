@@ -36,16 +36,6 @@ return {
 		end,
 	},
 	{
-		"numToStr/Comment.nvim",
-		opts = {
-			-- add any options here
-		},
-		config = function()
-			require("Comment").setup()
-		end,
-		lazy = false,
-	},
-	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = {},
@@ -84,6 +74,6 @@ return {
 	{
 		"chrisgrieser/nvim-various-textobjs",
 		lazy = false,
-		opts = { useDefaultKeymaps = true },
+		opts = { useDefaultKeymaps = true, disabledKeymaps = { "gc", "gb" } },
 	},
 }
