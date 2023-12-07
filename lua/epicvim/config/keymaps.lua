@@ -1,11 +1,3 @@
-local whichkey_defaults = {
-	mode = { "n", "v" },
-	["g"] = { name = "+goto" },
-	["gs"] = { name = "+surround" },
-	["]"] = { name = "+next" },
-	["["] = { name = "+prev" },
-}
-
 -- Move Lines
 vim.keymap.set("n", "<A-j>", ":m .+1<cr>==", { desc = "Move down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<cr>==", { desc = "Move up" })
@@ -18,29 +10,19 @@ vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 --vim.keymap.set("<esc>", ":noh<cr><esc>", "Escape and clear hlsearch", { "i", "n" })
 
 -- +Next, ]
-whichkey_defaults["]"] = { name = "+next" }
 vim.keymap.set("n", "]<tab>", ":tabnext<cr>", { desc = "Next Tab" })
-vim.keymap.set("n", "]b", ":BufferLineCycleNext<cr>", { desc = "Next buffer" })
-vim.keymap.set("n", "]h", require("gitsigns").next_hunk, { desc = "Next Hunk" })
 vim.keymap.set("n", "]q", vim.cmd.cnext, { desc = "Next quickfix" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "jump to next diagnostic in buffer" })
 
 -- +Prev, [
-whichkey_defaults["["] = { name = "+prev" }
 vim.keymap.set("n", "[<tab>", ":tabprev<cr>", { desc = "Prev Tab" })
-vim.keymap.set("n", "[b", "BufferLineCycleNext", { desc = "Prev buffer" })
-vim.keymap.set("n", "[h", require("gitsigns").prev_hunk, { desc = "Prev Hunk" })
 vim.keymap.set("n", "[q", vim.cmd.cprev, { desc = "Prev quickfix" })
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic in buffer" })
 
 -- save file
 vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", ":w<cr><esc>", { desc = "Save file" })
 
-vim.keymap.set("n", "gR", require("telescope.builtin").lsp_references, { desc = "show definition, references" })
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "go to declaration" })
-vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "show lsp definitions" })
-vim.keymap.set("n", "gi", require("telescope.builtin").lsp_implementations, { desc = "show lsp implementations" })
-vim.keymap.set("n", "gt", require("telescope.builtin").lsp_type_definitions, { desc = "show lsp type definitions" })
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "show documentation for what is under cursor" })
 
 -- Pane and Window Navigation
@@ -74,19 +56,7 @@ vim.keymap.set("n", "<leader>_", "<C-x>", { desc = "Decrement Number" })
 vim.keymap.set("n", "<leader>|", ":vsplit<cr>", { desc = "Split Vertically" })
 vim.keymap.set("n", "<leader>-", ":split<cr>", { desc = "Split Horizontally" })
 
--- Command history
-vim.keymap.set("n", "<leader>:", require("telescope.builtin").command_history, { desc = "Command History" })
-
--- Plugins, <leader>P
-vim.keymap.set("n", "<leader>P", ":Lazy<cr>", { desc = "Lazy (Plugin Manager)" })
-
--- spider
-vim.keymap.set({ "n", "o", "x" }, "<leader>w", ":lua require('spider').motion('w')<cr>", { desc = "Spider-w" })
-vim.keymap.set({ "n", "o", "x" }, "<leader>e", ":lua require('spider').motion('e')<cr>", { desc = "Spider-e" })
-vim.keymap.set({ "n", "o", "x" }, "<leader>b", ":lua require('spider').motion('b')<cr>", { desc = "Spider-b" })
-
 -- +Tabs <leader><tab>
-whichkey_defaults["<leader><tab>"] = { name = "+tabs" }
 vim.keymap.set("n", "<leader><tab>$", ":tablast<cr>", { desc = "Last Tab" })
 vim.keymap.set("n", "<leader><tab>0", ":tabfirst<cr>", { desc = "First Tab" })
 vim.keymap.set("n", "<leader><tab>n", ":tabnew<cr>", { desc = "New Tab" })
@@ -95,42 +65,15 @@ vim.keymap.set("n", "<leader><tab>x", ":tabclose<cr>", { desc = "Close Tab" })
 vim.keymap.set("n", "<leader><tab>h", ":tabprevious<cr>", { desc = "Prev Tab" })
 
 -- +Code Actions <leader>c
-whichkey_defaults["<leader>c"] = { name = "+code actions" }
-vim.keymap.set("n", "<leader>cd", require("telescope.builtin").lsp_document_symbols, { desc = "Document Symbols" })
-vim.keymap.set({ "n", "v" }, "<leader>cf", function()
-	require("conform").format({
-		lsp_fallback = true,
-		async = false,
-		timeout_ms = 1000,
-	})
-end, { desc = "Format" })
-vim.keymap.set({ "n", "v" }, "<leader>cF", function()
-	require("conform").format({
-		lsp_fallback = true,
-		async = false,
-		timeout_ms = 1000,
-		formatters = { "injected" },
-	})
-end, { desc = "Format Injected Langs" })
-vim.keymap.set("n", "<leader>cL", require("lint").try_lint, { desc = "Trigger linting for current file" })
 vim.keymap.set("n", "<leader>ci", ":LspInfo<cr>", { desc = "LSP Info" })
 vim.keymap.set("n", "<leader>cI", vim.show_pos, { desc = "Inspect Pos" })
-vim.keymap.set("n", "<leader>cm", ":Mason<cr>", { desc = "Mason" })
 vim.keymap.set("n", "<leader>co", ":lopen<cr>", { desc = "Location List" })
 vim.keymap.set("n", "<leader>cq", ":copen<cr>", { desc = "Quickfix List" })
 vim.keymap.set("n", "<leader>cQ", require("telescope.builtin").quickfix, { desc = "Telescope Quickfix" })
 vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
 vim.keymap.set("n", "<leader>cR", ":LspRestart<cr>", { desc = "Restart LSP" })
-vim.keymap.set(
-	"n",
-	"<leader>cw",
-	require("telescope.builtin").lsp_dynamic_workspace_symbols,
-	{ desc = "Workspace Symbols" }
-)
-vim.keymap.set("n", "<leader>cW", require("telescope.builtin").diagnostics, { desc = "Workspace diagnostics" })
 
 -- +Debugging <leader>d
-whichkey_defaults["<leader>d"] = { name = "+debug" }
 vim.keymap.set("n", "<leader>db", require("dap").step_back, { desc = "Step Back" })
 vim.keymap.set("n", "<leader>dc", require("dap").continue, { desc = "Continue" })
 vim.keymap.set("n", "<leader>dC", require("dap").run_to_cursor, { desc = "Run To Cursor" })
@@ -151,7 +94,6 @@ end, { desc = "Toggle UI" })
 
 -- +Find/Files <leader>f
 -- TODO: There are other bufferline options worth exploring
-whichkey_defaults["<leader>f"] = { name = "+files/buffers" }
 vim.keymap.set("n", "<leader>fb", function()
 	require("neo-tree.command").execute({ source = "buffers", toggle = true })
 end, { desc = "Buffer explorer" })
@@ -180,11 +122,9 @@ vim.keymap.set("n", "<leader>fX", function()
 	require("epicvim.util.buffer").buf_kill(true)
 end, { desc = "Delete Buffer (Force)" })
 -- +Go (actions) <leader>g
-whichkey_defaults["<leader>g"] = { name = "+go (actions)" }
 vim.keymap.set({ "n", "o", "x" }, "<leader>ge", ":lua require('spider').motion('ge')<cr>", { desc = "Spider-ge" })
 
 -- Panes <leader>p
-whichkey_defaults["<leader>p"] = { name = "+panes" }
 vim.keymap.set("n", "<leader>p-", "<C-W>s", { desc = "Split pane below", remap = true })
 vim.keymap.set("n", "<leader>p|", "<C-W>v", { desc = "Split pane right", remap = true })
 vim.keymap.set("n", "<leader>pf", ":MaximizerToggle<cr>", { desc = "Maximize/Unmaximize pane" })
@@ -194,7 +134,6 @@ vim.keymap.set("n", "<leader>p-", "<C-W>s", { desc = "Split pane below", remap =
 vim.keymap.set("n", "<leader>p|", "<C-W>v", { desc = "Split pane right", remap = true })
 
 -- +Session <leader>q
-whichkey_defaults["<leader>q"] = { name = "+session" }
 vim.keymap.set("n", "<leader>qd", require("persistence").stop, { desc = "Don't Save Current Session" })
 vim.keymap.set("n", "<leader>ql", function()
 	require("persistence").load({ last = true })
@@ -211,7 +150,6 @@ local function grep_in_cwd()
 	require("telescope.builtin").live_grep({ cwd = require("telescope.utils").buffer_dir() })
 end
 
-whichkey_defaults["<leader>s"] = { name = "+search" }
 vim.keymap.set("n", '<leader>s"', require("telescope.builtin").registers, { desc = "Registers" })
 vim.keymap.set("n", "<leader>sa", require("telescope.builtin").autocommands, { desc = "Auto Commands" })
 vim.keymap.set("n", "<leader>sb", require("telescope.builtin").current_buffer_fuzzy_find, { desc = "Buffer" })
@@ -251,7 +189,6 @@ vim.keymap.set("n", "<leader>sw", ":Telescope grep_string word_match='-w'<cr>", 
 vim.keymap.set("n", "<leader>sW", ":Telescope grep_string cwd=false word_match='-w'<cr>", { desc = "Word (root dir)" })
 
 -- +Set/Toggle Session Features <leader>S
-whichkey_defaults["<leader>S"] = { name = "+Set/Toggle Session Features" }
 vim.keymap.set("n", "<leader>Sc", function()
 	vim.ui.select({ 0, 1, 2, 3 }, {}, function(selection)
 		vim.opt.conceallevel = selection
@@ -383,7 +320,6 @@ vim.keymap.set("n", "<leader>Sw", function()
 end, { desc = "Toggle Word Wrap" })
 
 -- Version Control <leader>v
-whichkey_defaults["<leader>v"] = { name = "+version control" }
 vim.keymap.set("n", "<leader>vb", ":Telescope git_branches<cr>", { desc = "Checkout branch" })
 vim.keymap.set("n", "<leader>vB", require("gitsigns").blame_line, { desc = "Blame" })
 vim.keymap.set("n", "<leader>vC", ":Telescope git_bcommits<cr>", { desc = "Checkout commit(for current file)" })
@@ -403,16 +339,3 @@ vim.keymap.set("n", "<leader>vr", require("gitsigns").reset_hunk, { desc = "Rese
 vim.keymap.set("n", "<leader>vs", require("gitsigns").stage_hunk, { desc = "Stage Hunk" })
 vim.keymap.set("n", "<leader>vu", require("gitsigns").undo_stage_hunk, { desc = "Undo Stage Hunk" })
 vim.keymap.set("n", "<leader>vU", ":Telescope undo<cr>", { desc = "View Undo History" })
-
-whichkey_defaults["[{"] = "Prev {"
-whichkey_defaults["[("] = "Prev ("
-whichkey_defaults["[<lt>"] = "Prev <"
-whichkey_defaults["[m"] = "Prev method start"
-whichkey_defaults["[M"] = "Prev method end"
-whichkey_defaults["[%"] = "Prev unmatched group"
-whichkey_defaults["[s"] = "Prev misspelled word"
-whichkey_defaults["<leader>e"] = "End of this Subword"
-whichkey_defaults["<leader>w"] = "Start of next Subword"
-whichkey_defaults["<leader>b"] = "Beginning of this Subword"
-
-require("which-key").register(whichkey_defaults)

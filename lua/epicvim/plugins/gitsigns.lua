@@ -1,6 +1,7 @@
 return {
 	"lewis6991/gitsigns.nvim",
-	opts = {
+	opts = {},
+	configure = function()
 		require("gitsigns").setup({
 			signs = {
 				add = { text = "│" },
@@ -42,6 +43,8 @@ return {
 			yadm = {
 				enable = false,
 			},
-		}),
-	},
+		})
+		vim.keymap.set("n", "]h", require("gitsigns").next_hunk, { desc = "Next Hunk" })
+		vim.keymap.set("n", "[h", require("gitsigns").prev_hunk, { desc = "Prev Hunk" })
+	end,
 }

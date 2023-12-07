@@ -88,5 +88,41 @@ return {
 		telescope.load_extension("undo")
 		telescope.load_extension("advanced_git_search")
 		telescope.load_extension("live_grep_args")
+
+		vim.keymap.set("n", "gR", require("telescope.builtin").lsp_references, { desc = "show definition, references" })
+		vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "show lsp definitions" })
+		vim.keymap.set(
+			"n",
+			"gi",
+			require("telescope.builtin").lsp_implementations,
+			{ desc = "show lsp implementations" }
+		)
+		vim.keymap.set(
+			"n",
+			"gt",
+			require("telescope.builtin").lsp_type_definitions,
+			{ desc = "show lsp type definitions" }
+		)
+		vim.keymap.set("n", "<leader>:", require("telescope.builtin").command_history, { desc = "Command History" })
+		vim.keymap.set(
+			"n",
+			"<leader>cd",
+			require("telescope.builtin").lsp_document_symbols,
+			{ desc = "Document Symbols" }
+		)
+		vim.keymap.set({ "n", "v" }, "<leader>cf", function()
+			require("conform").format({
+				lsp_fallback = true,
+				async = false,
+				timeout_ms = 1000,
+			})
+		end, { desc = "Format" })
+		vim.keymap.set(
+			"n",
+			"<leader>cw",
+			require("telescope.builtin").lsp_dynamic_workspace_symbols,
+			{ desc = "Workspace Symbols" }
+		)
+		vim.keymap.set("n", "<leader>cW", require("telescope.builtin").diagnostics, { desc = "Workspace diagnostics" })
 	end,
 }

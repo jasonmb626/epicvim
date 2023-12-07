@@ -41,5 +41,13 @@ return {
 			},
 			format_on_save = format_options,
 		})
+		vim.keymap.set({ "n", "v" }, "<leader>cF", function()
+			require("conform").format({
+				lsp_fallback = true,
+				async = false,
+				timeout_ms = 1000,
+				formatters = { "injected" },
+			})
+		end, { desc = "Format Injected Langs" })
 	end,
 }
