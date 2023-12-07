@@ -49,5 +49,22 @@ return {
 				formatters = { "injected" },
 			})
 		end, { desc = "Format Injected Langs" })
+		vim.keymap.set("n", "<leader>Sf", function()
+			if vim.g.autoformat ~= nil and vim.g.autoformat == true then
+				vim.g.autoformat = false
+				require("conform").setup({ format_on_save = false })
+				print("Disabled autoformatting")
+			else
+				vim.g.autoformat = true
+				require("conform").setup({
+					format_on_save = {
+						lsp_fallback = true,
+						async = false,
+						timeout_ms = 1000,
+					},
+				})
+				print("Enabled autoformatting")
+			end
+		end, { desc = "Toggle auto format" })
 	end,
 }

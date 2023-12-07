@@ -46,5 +46,14 @@ return {
 		})
 		vim.keymap.set("n", "]h", require("gitsigns").next_hunk, { desc = "Next Hunk" })
 		vim.keymap.set("n", "[h", require("gitsigns").prev_hunk, { desc = "Prev Hunk" })
+		vim.keymap.set("n", "<leader>vB", require("gitsigns").blame_line, { desc = "Blame" })
+		vim.keymap.set("n", "<leader>vd", ":Gitsigns diffthis HEAD<cr>", { desc = "Git Diff (against head)" })
+		vim.keymap.set("n", "<leader>vG", ":AdvancedGitSearch<cr>", { desc = "Advanced Git Search" })
+		vim.keymap.set("n", "<leader>vj", require("gitsigns").next_hunk, { desc = "Next Hunk" })
+		vim.keymap.set("n", "<leader>vk", require("gitsigns").prev_hunk, { desc = "Prev Hunk" })
+		vim.keymap.set("n", "<leader>vp", require("gitsigns").preview_hunk, { desc = "Preview Hunk" })
+		vim.keymap.set("n", "<leader>vr", require("gitsigns").reset_hunk, { desc = "Reset Hunk" })
+		vim.keymap.set("n", "<leader>vs", require("gitsigns").stage_hunk, { desc = "Stage Hunk" })
+		vim.keymap.set("n", "<leader>vu", require("gitsigns").undo_stage_hunk, { desc = "Undo Stage Hunk" })
 	end,
 }

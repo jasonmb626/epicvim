@@ -5,8 +5,6 @@ return {
 
 	"nvim-lua/plenary.nvim", -- lua functions that many plugins use
 
-	"christoomey/vim-tmux-navigator", -- tmux & split window navigation
-
 	"inkarkat/vim-ReplaceWithRegister", -- replace with register contents using motion (gr + motion)
 
 	"nvim-tree/nvim-web-devicons", -- better icons for NeoTree
@@ -79,16 +77,15 @@ return {
 		event = "VeryLazy",
 	},
 	{
-		"RRethy/vim-illuminate",
-		lazy = false,
-		config = function()
-			require("illuminate").configure({})
-		end,
-	},
-	{
 		"nvim-neo-tree/neo-tree.nvim",
 		config = function()
 			require("neo-tree").setup()
+			vim.keymap.set("n", "<leader>ve", function()
+				require("neo-tree.command").execute({ source = "git_status", toggle = true })
+			end, { desc = "Git explorer" })
+			vim.keymap.set("n", "<leader>fb", function()
+				require("neo-tree.command").execute({ source = "buffers", toggle = true })
+			end, { desc = "Buffer explorer" })
 		end,
 	},
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },

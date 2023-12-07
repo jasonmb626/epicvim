@@ -58,6 +58,29 @@ return {
 					enable_autocmd = false,
 				},
 			})
+			vim.keymap.set("n", "<leader>St", function()
+				require("treesitter-context").toggle()
+				print("Treesitter context toggled")
+			end, { desc = "Toggle Treesitter Context" })
+			vim.keymap.set("n", "<leader>ST", function()
+				if vim.b.ts_highlight then
+					vim.treesitter.stop()
+					print("Disabled Treesitter Highlight")
+				else
+					vim.treesitter.start()
+					print("Enabled Treesitter Highlight")
+				end
+			end, { desc = "Toggle Treesitter Highlight" })
+			vim.keymap.set("n", "<leader>vo", require("telescope.builtin").git_status, { desc = "Open changed file" })
+			vim.keymap.set("n", "<leader>vb", ":Telescope git_branches<cr>", { desc = "Checkout branch" })
+			vim.keymap.set(
+				"n",
+				"<leader>vC",
+				":Telescope git_bcommits<cr>",
+				{ desc = "Checkout commit(for current file)" }
+			)
+			vim.keymap.set("n", "<leader>vc", ":Telescope git_commits<cr>", { desc = "Checkout commit" })
+			vim.keymap.set("n", "<leader>vU", ":Telescope undo<cr>", { desc = "View Undo History" })
 		end,
 	},
 	-- Show context of the current function

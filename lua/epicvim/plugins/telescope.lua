@@ -124,5 +124,56 @@ return {
 			{ desc = "Workspace Symbols" }
 		)
 		vim.keymap.set("n", "<leader>cW", require("telescope.builtin").diagnostics, { desc = "Workspace diagnostics" })
+		vim.keymap.set("n", "<leader>fB", require("telescope.builtin").buffers, { desc = "Find Buffers" })
+		vim.keymap.set("n", "<leader>fF", require("telescope.builtin").find_files, { desc = "Find files" })
+		vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "Recent files" })
+		vim.keymap.set("n", '<leader>s"', require("telescope.builtin").registers, { desc = "Registers" })
+		vim.keymap.set("n", "<leader>sa", require("telescope.builtin").autocommands, { desc = "Auto Commands" })
+		vim.keymap.set("n", "<leader>sb", require("telescope.builtin").current_buffer_fuzzy_find, { desc = "Buffer" })
+		vim.keymap.set("n", "<leader>sc", require("telescope.builtin").command_history, { desc = "Command History" })
+		vim.keymap.set("n", "<leader>sC", require("telescope.builtin").commands, { desc = "Commands" })
+		vim.keymap.set("n", "<leader>sd", ":Telescope diagnostics bufnr=0<cr>", { desc = "Document diagnostics" })
+		vim.keymap.set("n", "<leader>sD", require("telescope.builtin").diagnostics, { desc = "Workspace diagnostics" })
+		vim.keymap.set("n", "<leader>sf", require("telescope.builtin").find_files, { desc = "Find files" })
+		vim.keymap.set("n", "<leader>sF", function()
+			vim.ui.input({ prompt = "Which dir (ex: app/)? Relative to " .. vim.loop.cwd() }, function(dir)
+				require("telescope.builtin").live_grep({ search_dirs = { dir } })
+			end)
+		end, { desc = "Grep (Specify directory)" })
+		vim.keymap.set("n", "<leader>sg", function()
+			require("telescope.builtin").live_grep({ cwd = require("telescope.utils").buffer_dir() })
+		end, { desc = "Grep (cwd)" })
+		vim.keymap.set("n", "<leader>sG", require("telescope.builtin").live_grep, { desc = "Grep (root dir)" })
+		vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "Help Pages" })
+		vim.keymap.set("n", "<leader>sH", require("telescope.builtin").highlights, { desc = "Search Highlight Groups" })
+		vim.keymap.set("n", "<leader>sk", require("telescope.builtin").keymaps, { desc = "Key Maps" })
+		vim.keymap.set("n", "<leader>sM", require("telescope.builtin").man_pages, { desc = "Man Pages" })
+		vim.keymap.set("n", "<leader>sm", require("telescope.builtin").marks, { desc = "Jump to Mark" })
+		vim.keymap.set("n", "<leader>so", require("telescope.builtin").vim_options, { desc = "Options" })
+		vim.keymap.set("n", "<leader>sr", require("telescope.builtin").oldfiles, { desc = "Recent" })
+		vim.keymap.set("n", "<leader>sR", require("telescope.builtin").resume, { desc = "Resume" })
+		vim.keymap.set(
+			"n",
+			"<leader>ss",
+			require("telescope.builtin").lsp_document_symbols,
+			{ desc = "Goto Symbol (Document)" }
+		)
+		vim.keymap.set(
+			"n",
+			"<leader>sS",
+			require("telescope.builtin").lsp_dynamic_workspace_symbols,
+			{ desc = "Goto Symbol (Workspace)" }
+		)
+		vim.keymap.set("n", "<leader>sw", ":Telescope grep_string word_match='-w'<cr>", { desc = "Word (cwd)" })
+		vim.keymap.set(
+			"n",
+			"<leader>sW",
+			":Telescope grep_string cwd=false word_match='-w'<cr>",
+			{ desc = "Word (root dir)" }
+		)
+		vim.keymap.set("n", "<leader>SC", function()
+			require("telescope.builtin").colorscheme({ enable_preview = true })
+		end, { desc = "Colorscheme with preview" })
+		vim.keymap.set("n", "<leader>cQ", require("telescope.builtin").quickfix, { desc = "Telescope Quickfix" })
 	end,
 }

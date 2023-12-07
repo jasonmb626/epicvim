@@ -26,5 +26,17 @@ return {
 
 		-- make autopairs and completion work together
 		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+		vim.keymap.set("n", "<leader>Sp", function()
+			if vim.g.autopairs ~= nil and vim.g.autopairs == true then
+				vim.g.autopairs = false
+				require("nvim-autopairs").enable()
+				print("Autopairs enabled")
+			else
+				vim.g.autopairs = true
+				require("nvim-autopairs").disable()
+				print("Autopairs disabled")
+			end
+		end, { desc = "Toggle auto pairs" })
 	end,
 }
