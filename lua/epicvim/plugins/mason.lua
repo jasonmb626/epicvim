@@ -1,5 +1,3 @@
-local ensure_installed = require("epicvim.config.mason_ensure_installed")
-
 return {
 	"williamboman/mason.nvim",
 	dependencies = {
@@ -30,13 +28,29 @@ return {
 
 		mason_lspconfig.setup({
 			-- list of servers for mason to install
-			ensure_installed = ensure_installed.lsp,
+			ensure_installed = {
+				"tsserver",
+				"html",
+				"cssls",
+				"tailwindcss",
+				"emmet_ls",
+				"pyright",
+				"lua_ls",
+			},
 			-- auto-install configured servers (with lspconfig)
 			automatic_installation = true, -- not the same as ensure_installed
 		})
 
 		mason_tool_installer.setup({
-			ensure_installed = ensure_installed.tools,
+			ensure_installed = {
+				"stylua",
+				"debugpy",
+				"isort", -- python formatter
+				"black", -- python formatter
+				"pylint", -- python linter
+				"eslint_d", -- js linter
+				"prettier", -- prettier formatter
+			},
 		})
 	end,
 	vim.keymap.set("n", "<leader>cm", ":Mason<cr>", { desc = "Mason" }),
