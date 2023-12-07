@@ -79,11 +79,6 @@ return {
 		event = "VeryLazy",
 	},
 	{
-		"m4xshen/hardtime.nvim",
-		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-		opts = { enabled = false },
-	},
-	{
 		"RRethy/vim-illuminate",
 		lazy = false,
 		config = function()
