@@ -40,19 +40,10 @@ return {
 		opts = {
 			-- add any options here
 		},
-		lazy = false,
-	},
-	{
-		"lewis6991/gitsigns.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		config = true,
-	},
-	{
-		"lewis6991/gitsigns.nvim",
-		lazy = false,
 		config = function()
-			require("gitsigns").setup()
+			require("Comment").setup()
 		end,
+		lazy = false,
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
