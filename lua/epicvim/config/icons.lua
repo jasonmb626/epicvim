@@ -152,4 +152,9 @@ return {
 		Package = "",
 		CircuitBoard = "",
 	},
+	lsp = {
+		lsp = "󱓓",
+		formatter = "󰣟",
+		linter = "󱇀",
+	},
 }

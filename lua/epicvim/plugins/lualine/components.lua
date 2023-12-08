@@ -107,14 +107,11 @@ return {
 	lsp = {
 		function()
 			local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
-			if #buf_clients == 0 then
-				return "LSP Inactive"
-			end
 
 			local buf_client_names = {}
 			local copilot_active = false
 
-			-- add client
+			-- add clients
 			for _, client in ipairs(buf_clients) do
 				if client.name ~= "null-ls" and client.name ~= "copilot" then
 					table.insert(buf_client_names, client.name)
@@ -125,28 +122,49 @@ return {
 				end
 			end
 
+			if copilot_active then
+				table.insert(buf_client_names, "%#SLCopilot#" .. " " .. icons.git.Octoface .. "%*")
+			end
+
+			-- TODO: Add an icon to indicate formatter. Recommend nerd font entry f08df
 			-- add formatter
+			local buf_formatters = {}
 			local supported_formatters = require("conform").list_formatters(0)
 			for _, supported_formatter in ipairs(supported_formatters) do
 				--local supported_formatters = formatters.list_registered(buf_ft)
-				table.insert(buf_client_names, supported_formatter.name)
+				table.insert(buf_formatters, supported_formatter.name)
 			end
 
 			-- add linter
 
+			-- TODO: Add an icon to indicate linters. Maybe nerd font f11c0
+			local buf_linters = {}
 			local supported_linters = require("lint").get_running()
-			print(vim.inspect(supported_linters))
-			vim.list_extend(buf_client_names, supported_linters)
+			vim.list_extend(buf_linters, supported_linters)
 
-			local unique_client_names = table.concat(buf_client_names, ", ")
-			print(unique_client_names)
-			local language_servers = string.format("[%s]", unique_client_names)
-
-			if copilot_active then
-				language_servers = language_servers .. "%#SLCopilot#" .. " " .. icons.git.Octoface .. "%*"
+			local lsp_str = ""
+			if #buf_client_names == 0 then
+				lsp_str = icons.lsp.lsp .. " n/a"
+			else
+				lsp_str = icons.lsp.lsp .. " " .. table.concat(buf_client_names, ", ")
 			end
 
-			return language_servers
+			local format_str = ""
+			if #buf_formatters == 0 then
+				format_str = icons.lsp.formatter .. " n/a"
+			else
+				format_str = icons.lsp.formatter .. " " .. table.concat(buf_formatters, ", ")
+			end
+
+			local lint_str = ""
+			if #buf_linters == 0 then
+				lint_str = icons.lsp.linter .. " n/a"
+			else
+				lint_str = icons.lsp.linter .. " " .. table.concat(buf_linters, ", ")
+			end
+
+			local full_lsp_str = lsp_str .. " " .. format_str .. " " .. lint_str
+			return full_lsp_str
 		end,
 		color = { gui = "bold" },
 		cond = conditions.hide_in_width,
