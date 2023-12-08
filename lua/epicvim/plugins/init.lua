@@ -5,8 +5,6 @@ return {
 
 	"nvim-lua/plenary.nvim", -- lua functions that many plugins use
 
-	"inkarkat/vim-ReplaceWithRegister", -- replace with register contents using motion (gr + motion)
-
 	"nvim-tree/nvim-web-devicons", -- better icons for NeoTree
 
 	"szw/vim-maximizer", -- Maximize/minimuze current window
