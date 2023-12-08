@@ -3,6 +3,17 @@ local conditions = require("epicvim.plugins.lualine.conditions")
 local colors = require("epicvim.plugins.lualine.colors")
 local icons = require("epicvim.config.icons")
 
+local function env_cleanup(venv)
+	if string.find(venv, "/") then
+		local final_venv = venv
+		for w in venv:gmatch("([^/]+)") do
+			final_venv = w
+		end
+		venv = final_venv
+	end
+	return venv
+end
+
 local function diff_source()
 	local gitsigns = vim.b.gitsigns_status_dict
 	if gitsigns then
@@ -58,13 +69,12 @@ return {
 	},
 	python_env = {
 		function()
-			local utils = require("lvim.core.lualine.utils")
 			if vim.bo.filetype == "python" then
 				local venv = os.getenv("CONDA_DEFAULT_ENV") or os.getenv("VIRTUAL_ENV")
 				if venv then
 					local nvim_web_devicons = require("nvim-web-devicons")
 					local py_icon, _ = nvim_web_devicons.get_icon(".py")
-					return string.format(" " .. py_icon .. " (%s)", utils.env_cleanup(venv))
+					return string.format(" " .. py_icon .. " (%s)", env_cleanup(venv))
 				end
 			end
 			return ""
@@ -101,12 +111,11 @@ return {
 				return "LSP Inactive"
 			end
 
-			local buf_ft = vim.bo.filetype
 			local buf_client_names = {}
 			local copilot_active = false
 
 			-- add client
-			for _, client in pairs(buf_clients) do
+			for _, client in ipairs(buf_clients) do
 				if client.name ~= "null-ls" and client.name ~= "copilot" then
 					table.insert(buf_client_names, client.name)
 				end
@@ -117,16 +126,20 @@ return {
 			end
 
 			-- add formatter
-			local formatters = require("lvim.lsp.null-ls.formatters")
-			local supported_formatters = formatters.list_registered(buf_ft)
-			vim.list_extend(buf_client_names, supported_formatters)
+			local supported_formatters = require("conform").list_formatters(0)
+			for _, supported_formatter in ipairs(supported_formatters) do
+				--local supported_formatters = formatters.list_registered(buf_ft)
+				table.insert(buf_client_names, supported_formatter.name)
+			end
 
 			-- add linter
-			local linters = require("lvim.lsp.null-ls.linters")
-			local supported_linters = linters.list_registered(buf_ft)
+
+			local supported_linters = require("lint").get_running()
+			print(vim.inspect(supported_linters))
 			vim.list_extend(buf_client_names, supported_linters)
 
 			local unique_client_names = table.concat(buf_client_names, ", ")
+			print(unique_client_names)
 			local language_servers = string.format("[%s]", unique_client_names)
 
 			if copilot_active then

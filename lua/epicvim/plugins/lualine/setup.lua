@@ -25,8 +25,7 @@ M.setup = function()
 			theme = nordtheme,
 			globalstatus = true,
 			icons_enabled = true,
-			component_separators = { left = "", right = "" },
-			section_separators = { left = "", right = "" },
+			component_separators = {},
 			disabled_filetypes = { statusline = { "alpha" } },
 		},
 		sections = {
