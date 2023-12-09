@@ -4,28 +4,20 @@ FROM node:21-alpine3.18 as prod
 ARG UID=1000
 ARG GID=1000
 
-#To get the timezone on your host machine run the below
-#readlink /etc/localtime | awk -Fzoneinfo/ '{print $2}'
+#These (esp the LANG variable) make sure tmux outputs UTF-8. Needed for special chars
 ENV GDM_LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
-    #&& setup-timezone -z ${TZ} \
 RUN deluser --remove-home node \
     && addgroup -g ${GID} app \
     && adduser -D -u ${UID} -G app -s /bin/bash app \
-    && mkdir -p /home/app/.config \
-    && chown app:app /home/app/.config\
-    && mkdir -p /home/app/.local \
-    && chown app:app /home/app/.local\
     && chmod 777 /tmp
 
-USER app
+USER app:app
 WORKDIR /app
 COPY app/. .
 
-#These (esp the LANG variable) make sure tmux outputs UTF-8. Needed for special chars
 COPY requirements.txt /tmp
-
 
 RUN if [[ -s package.json ]]; then\
         npm install;\
@@ -52,9 +44,13 @@ RUN apk add git\
          sudo \
          unzip gzip fd mercurial wget\
     && npm install -g neovim\
-    && mkdir -p /etc/sudoers.d && echo 'app ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/app
+    && mkdir -p /etc/sudoers.d && echo 'app ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/app \
+    && mkdir -p /home/app/.config \
+    && chown app:app /home/app/.config\
+    && mkdir -p /home/app/.local \
+    && chown app:app /home/app/.local
 
-USER app
+USER app:app
 RUN python3 -m venv /home/app/.venv \
     && cat <<EOF > /home/app/.bash_profile 
 # .bash_profile
@@ -78,7 +74,8 @@ if [[ ! -x /home/app/.local/share/nvim/lazy/nvim-treesitter/parser/markdown.so ]
         sleep 30
         PID=\$(ps aux | grep 'nvim --headless -c TSInstall! markdown' | grep -v grep | awk '{print \$2}')
         kill \$PID
-        echo "You may now start neovim"
+        echo "You may now start neovim. Additional LSPs, formatters, and linters may install on startup."
+        echo "Once there is no longer feedback that new tools are installing, we recommend restarting neovim one mor time."
     fi
 fi
 EOF
