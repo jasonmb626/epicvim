@@ -11,13 +11,28 @@ ENV LANG=en_US.UTF-8
 RUN deluser --remove-home node \
     && addgroup -g ${GID} app \
     && adduser -D -u ${UID} -G app -s /bin/bash app \
-    && chmod 777 /tmp
+    && chmod 777 /tmp \
+    && apk add -U py3-pip
 
 USER app:app
-WORKDIR /app
-COPY app/. .
+RUN python3 -m venv /home/app/.venv \
+    && cat <<EOF > /home/app/.bash_profile 
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+EOF
 
 COPY requirements.txt /tmp
+RUN source /home/app/.venv/bin/activate\
+    && pip3 install -r /tmp/requirements.txt && rm /tmp/requirements.txt
+
+WORKDIR /app
+COPY app/. .
 
 RUN if [[ -s package.json ]]; then\
         npm install;\
@@ -33,7 +48,6 @@ USER root
 RUN apk add git\ 
          lua-dev luarocks stylua\
          lazygit openssh\
-         py3-pip\
          tmux neovim neovim-doc\
          procps\
          tmux\
@@ -49,19 +63,6 @@ RUN apk add git\
     && chown app:app /home/app/.config\
     && mkdir -p /home/app/.local \
     && chown app:app /home/app/.local
-
-USER app:app
-RUN python3 -m venv /home/app/.venv \
-    && cat <<EOF > /home/app/.bash_profile 
-# .bash_profile
-
-# Get the aliases and functions
-if [ -f ~/.bashrc ]; then
-    . ~/.bashrc
-fi
-
-# User specific environment and startup programs
-EOF
 
 RUN cat <<EOF >/home/app/.bashrc 
 source /home/app/.venv/bin/activate
