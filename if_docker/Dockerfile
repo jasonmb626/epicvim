@@ -15,6 +15,8 @@ RUN deluser --remove-home node \
     && adduser -D -u ${UID} -G app -s /bin/bash app \
     && mkdir -p /home/app/.config \
     && chown app:app /home/app/.config\
+    && mkdir -p /home/app/.local \
+    && chown app:app /home/app/.local\
     && chmod 777 /tmp
 
 USER app
@@ -70,6 +72,13 @@ source /home/app/.venv/bin/activate
 if [[ ! -x /home/app/.local/share/nvim/lazy/nvim-treesitter/parser/markdown.so ]]; then
     if [[ -x /home/app/.config/nvim/if_docker/auto_install_dependencies.sh ]]; then
         /home/app/.config/nvim/if_docker/auto_install_dependencies.sh >/dev/null 2>&1
+        echo "Neovim packages are installing in the background. Please wait before starting up neovim."
+        echo "This usually happens only on a fresh install."
+        echo "Sleeping 30 seconds."
+        sleep 30
+        PID=\$(ps aux | grep 'nvim --headless -c TSInstall! markdown' | grep -v grep | awk '{print \$2}')
+        kill \$PID
+        echo "You may now start neovim"
     fi
 fi
 EOF
