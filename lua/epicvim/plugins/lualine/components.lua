@@ -139,7 +139,12 @@ return {
 
 			-- TODO: Add an icon to indicate linters. Maybe nerd font f11c0
 			local buf_linters = {}
-			local supported_linters = require("lint").get_running()
+			local supported_linters = {}
+			if require("lint")["get_running"] ~= nil and type(require("lint")["get_running"]) == "function" then
+				supported_linters = require("lint").get_running()
+			else
+				supported_linters = { "u/k" }
+			end
 			vim.list_extend(buf_linters, supported_linters)
 
 			local lsp_str = ""
