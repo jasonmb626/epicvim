@@ -7,7 +7,7 @@ M.setup = function()
 	local nordtheme = require("lualine.themes.nord")
 	if #vim.api.nvim_list_uis() == 0 then
 		local log = require("structlog")
-		local logger = log.get_logger("epicvim")
+		local logger = log.get_logger("epic_logger")
 		logger:debug("headless mode detected, skipping running setup for lualine")
 		-- logger:info("A log message")
 		-- logger:warn("A log message with keyword arguments", { warning = "something happened" })
