@@ -43,9 +43,9 @@ return {
 
 		mason_tool_installer.setup({
 			ensure_installed = {
-				"stylua",
 				"debugpy",
 				"isort", -- python formatter
+				"autopep8", -- python formatter
 				"black", -- python formatter
 				"pylint", -- python linter
 				"eslint_d", -- js linter
