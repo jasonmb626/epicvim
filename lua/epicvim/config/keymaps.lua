@@ -22,16 +22,6 @@ vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", ":w<cr><esc>", { desc = "Save fi
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "go to declaration" })
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "show documentation for what is under cursor" })
 
--- Pane and Window Navigation
-vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Navigate Left" })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Navigate Down" })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Navigate Up" })
-vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Navigate Right" })
-vim.keymap.set("t", "<C-h>", ":wincmd h<cr>", { desc = "Navigate Left" })
-vim.keymap.set("t", "<C-j>", ":wincmd j<cr>", { desc = "Navigate Down" })
-vim.keymap.set("t", "<C-k>", ":wincmd k<cr>", { desc = "Navigate Up" })
-vim.keymap.set("t", "<C-l>", ":wincmd l<cr>", { desc = "Navigate Right" })
-
 -- Indenting
 vim.keymap.set("v", "<", "<gv", { desc = "Shift Indentation to Left" })
 vim.keymap.set("v", ">", ">gv", { desc = "Shift Indentation to Right" })
