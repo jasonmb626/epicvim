@@ -62,7 +62,7 @@ return {
 			vim.keymap.set("n", "<leader>ve", function()
 				require("neo-tree.command").execute({ source = "git_status", toggle = true })
 			end, { desc = "Git explorer" })
-			vim.keymap.set("n", "<leader>fb", function()
+			vim.keymap.set("n", "<leader>fB", function()
 				require("neo-tree.command").execute({ source = "buffers", toggle = true })
 			end, { desc = "Buffer explorer" })
 		end,

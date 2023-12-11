@@ -61,10 +61,10 @@ vim.keymap.set("n", "<leader>cR", ":LspRestart<cr>", { desc = "Restart LSP" })
 vim.keymap.set("n", "<leader>fn", ":enew<cr>", { desc = "New File/Buffer" })
 vim.keymap.set("n", "<leader>fo", ":e #<cr>", { desc = "Switch to Other Buffer" })
 vim.keymap.set("n", "<leader>fW", ":noautocmd w<cr>", { desc = "Save without formatting (no autocmd)" })
-vim.keymap.set("n", "<leader>fx", require("epicvim.util.buffer").buf_kill, { desc = "Delete Buffer" })
+vim.keymap.set("n", "<leader>fx", require("epicvim.util.buffer").buf_kill, { desc = "Close Buffer" })
 vim.keymap.set("n", "<leader>fX", function()
 	require("epicvim.util.buffer").buf_kill(true)
-end, { desc = "Delete Buffer (Force)" })
+end, { desc = "Close Buffer (Force)" })
 -- +Go (actions) <leader>g
 
 -- Panes <leader>p

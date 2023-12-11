@@ -8,7 +8,7 @@ return {
 		vim.keymap.set("n", "<leader>fD", ":BufferLineSortByDirectory<cr>", { desc = "Sort by directory" })
 		vim.keymap.set("n", "<leader>fh", ":BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
 		vim.keymap.set("n", "<leader>fH", ":BufferLineCloseLeft<cr>", { desc = "Close all buffers to the left" })
-		vim.keymap.set("n", "<leader>fj", ":BufferLinePick<cr>", { desc = "Jump" })
+		vim.keymap.set("n", "<leader>fj", ":BufferLinePick<cr>", { desc = "Jump to buffer" })
 		vim.keymap.set("n", "<leader>fl", ":BufferLineCycleNext<cr>", { desc = "Next buffer" })
 		vim.keymap.set("n", "<leader>fL", ":BufferLineCloseRight<cr>", { desc = "Close all buffers to the right" })
 		vim.keymap.set("n", "<leader>fO", ":BufferLineCloseOthers<cr>", { desc = "Close other buffers" })

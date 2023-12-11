@@ -124,8 +124,8 @@ return {
 			{ desc = "Workspace Symbols" }
 		)
 		vim.keymap.set("n", "<leader>cW", require("telescope.builtin").diagnostics, { desc = "Workspace diagnostics" })
-		vim.keymap.set("n", "<leader>fB", require("telescope.builtin").buffers, { desc = "Find Buffers" })
-		vim.keymap.set("n", "<leader>fF", require("telescope.builtin").find_files, { desc = "Find files" })
+		vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers, { desc = "Find Buffers" })
+		vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "Find files" })
 		vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "Recent files" })
 		vim.keymap.set("n", '<leader>s"', require("telescope.builtin").registers, { desc = "Registers" })
 		vim.keymap.set("n", "<leader>sa", require("telescope.builtin").autocommands, { desc = "Auto Commands" })
