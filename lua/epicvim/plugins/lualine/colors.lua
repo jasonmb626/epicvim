@@ -1,16 +1,16 @@
 local colors = {
-  bg = "#202328",
-  fg = "#bbc2cf",
-  yellow = "#ECBE7B",
-  cyan = "#008080",
-  darkblue = "#081633",
-  green = "#98be65",
-  orange = "#FF8800",
-  violet = "#a9a1e1",
-  magenta = "#c678dd",
-  purple = "#c678dd",
-  blue = "#51afef",
-  red = "#ec5f67",
+	bg = "#434C5E",
+	fg = "#D8DEE9",
+	yellow = "#EBCB8B",
+	cyan = "#88C0D0",
+	darkblue = "#5e81ac",
+	green = "#A3BE8C",
+	orange = "#D08770",
+	violet = "#a9a1e1",
+	magenta = "#c678dd",
+	purple = "#B48EAD",
+	blue = "#51afef",
+	red = "#BF616A",
 }
 
 return colors
