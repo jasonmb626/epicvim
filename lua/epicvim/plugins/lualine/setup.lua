@@ -30,7 +30,8 @@ M.setup = function()
 		},
 		sections = {
 			lualine_a = {
-				components.mode,
+				"fileformat",
+				"encoding",
 			},
 			lualine_b = {
 				components.branch,
