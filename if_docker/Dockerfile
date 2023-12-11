@@ -1,5 +1,5 @@
 ###############################     Base    #################################################
-FROM node:21-alpine3.18 as prod
+FROM alpine:3.18 as prod
 
 ARG UID=1000
 ARG GID=1000
@@ -8,13 +8,16 @@ ARG GID=1000
 ENV GDM_LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
-RUN deluser --remove-home node \
-    && addgroup -g ${GID} app \
+WORKDIR /app
+COPY app/. .
+RUN addgroup -g ${GID} app \
     && adduser -D -u ${UID} -G app -s /bin/bash app \
     && chmod 777 /tmp \
-    && apk add -U py3-pip
+    && apk add -U py3-pip npm\
+    && chown -R app:app /app
 
 USER app:app
+COPY requirements.txt /tmp
 RUN python3 -m venv /home/app/.venv \
     && cat <<EOF > /home/app/.bash_profile 
 # .bash_profile
@@ -27,12 +30,9 @@ fi
 # User specific environment and startup programs
 EOF
 
-COPY requirements.txt /tmp
 RUN source /home/app/.venv/bin/activate\
     && pip3 install -r /tmp/requirements.txt && rm /tmp/requirements.txt
 
-WORKDIR /app
-COPY app/. .
 
 RUN if [[ -s package.json ]]; then\
         npm install;\
