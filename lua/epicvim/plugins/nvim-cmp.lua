@@ -1,14 +1,14 @@
 return {
 	"hrsh7th/nvim-cmp",
-  event = "InsertEnter",
+	event = "InsertEnter",
 	config = function()
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
 		local lspkind = require("lspkind")
 
-		require("luasnip/loaders/from_vscode").lazy_load()
-
-		vim.opt.completeopt = "menu,menuone,noselect"
+		-- require("luasnip/loaders/from_vscode").lazy_load()
+		--
+		-- vim.opt.completeopt = "menu,menuone,noselect"
 
 		cmp.setup({
 			snippet = {
@@ -24,7 +24,7 @@ return {
 				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
 				["<C-e>"] = cmp.mapping.abort(), -- close completion window
 				["<CR>"] = cmp.mapping.confirm({ select = false }),
-				["<C-l>"] = cmp.mapping.confirm({ select = false }),
+				["<C-l>"] = cmp.mapping.confirm({ select = true }),
 			}),
 			-- sources for autocompletion
 			sources = cmp.config.sources({
@@ -36,15 +36,17 @@ return {
 			-- configure lspkind for vs-code like icons
 			formatting = {
 				format = lspkind.cmp_format({
+					mode = "symbol",
 					maxwidth = 50,
 					ellipsis_char = "...",
 				}),
 			},
 		})
 	end,
+
 	dependencies = {
-    "hrsh7th/cmp-buffer", -- source for text in buffer
-    "hrsh7th/cmp-path", -- source for file system paths
+		"hrsh7th/cmp-buffer", -- source for text in buffer
+		"hrsh7th/cmp-path", -- source for file system paths
 		{
 
 			"L3MON4D3/LuaSnip", -- snippet engine
@@ -53,8 +55,8 @@ return {
 			-- install jsregexp (optional!).
 			build = "make install_jsregexp",
 		},
-    "saadparwaiz1/cmp_luasnip", -- for autocompletion
-    "rafamadriz/friendly-snippets", -- useful snippets for a variety of languages
+		"saadparwaiz1/cmp_luasnip", -- for autocompletion
+		"rafamadriz/friendly-snippets", -- useful snippets for a variety of languages
 		"onsails/lspkind.nvim", -- adds vscode-like pictogramps to neovim built-in lsp
 	},
 }
