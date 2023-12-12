@@ -112,13 +112,6 @@ return {
 			require("telescope.builtin").lsp_document_symbols,
 			{ desc = "Document Symbols" }
 		)
-		vim.keymap.set({ "n", "v" }, "<leader>cf", function()
-			require("conform").format({
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 1000,
-			})
-		end, { desc = "Format" })
 		vim.keymap.set(
 			"n",
 			"<leader>cw",
