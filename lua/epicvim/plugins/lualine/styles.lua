@@ -1,6 +1,5 @@
 local M = {}
 local components = require("epicvim.plugins.lualine.components")
-local icons = require("epicvim.config.icons")
 
 local use_icons = true
 
@@ -65,42 +64,6 @@ M.styles.none = {
 		lualine_b = {},
 		lualine_c = {},
 		lualine_x = {},
-		lualine_y = {},
-		lualine_z = {},
-	},
-	tabline = {},
-	extensions = {},
-}
-
-M.styles.default = {
-	style = "default",
-	options = {
-		theme = "auto",
-		globalstatus = true,
-		icons_enabled = use_icons,
-		component_separators = {
-			left = icons.ui.DividerRight,
-			right = icons.ui.DividerLeft,
-		},
-		section_separators = {
-			left = icons.ui.BoldDividerRight,
-			right = icons.ui.BoldDividerLeft,
-		},
-		disabled_filetypes = {},
-	},
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "branch" },
-		lualine_c = { "filename" },
-		lualine_x = { "encoding", "fileformat", "filetype" },
-		lualine_y = { "progress" },
-		lualine_z = { "location" },
-	},
-	inactive_sections = {
-		lualine_a = {},
-		lualine_b = {},
-		lualine_c = { "filename" },
-		lualine_x = { "location" },
 		lualine_y = {},
 		lualine_z = {},
 	},

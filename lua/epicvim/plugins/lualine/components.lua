@@ -1,7 +1,4 @@
 --Shamelessy stolen from LunarVim
-local conditions = require("epicvim.plugins.lualine.conditions")
-local colors = require("epicvim.plugins.lualine.colors")
-local icons = require("epicvim.config.icons")
 
 local function env_cleanup(venv)
 	if string.find(venv, "/") then
@@ -25,22 +22,14 @@ local function diff_source()
 	end
 end
 
-local branch = icons.git.Branch
+local branch = ""
 
 -- if lvim.colorscheme == "lunar" then
 if true then
-	branch = "%#SLGitIcon#" .. icons.git.Branch .. "%*" .. "%#SLBranchName#"
+	branch = "%#SLGitIcon#%*" .. "%#SLBranchName#"
 end
 
 return {
-	mode = {
-		function()
-			return " " .. icons.ui.Target .. " "
-		end,
-		padding = { left = 0, right = 0 },
-		color = {},
-		cond = nil,
-	},
 	branch = {
 		"b:gitsigns_head",
 		icon = branch,
@@ -55,16 +44,11 @@ return {
 		"diff",
 		source = diff_source,
 		symbols = {
-			added = icons.git.LineAdded .. " ",
-			modified = icons.git.LineModified .. " ",
-			removed = icons.git.LineRemoved .. " ",
+			added = " ",
+			modified = " ",
+			removed = " ",
 		},
 		padding = { left = 2, right = 1 },
-		diff_color = {
-			added = { fg = colors.green },
-			modified = { fg = colors.yellow },
-			removed = { fg = colors.red },
-		},
 		cond = nil,
 	},
 	python_env = {
@@ -79,30 +63,22 @@ return {
 			end
 			return ""
 		end,
-		color = { fg = colors.green },
-		cond = conditions.hide_in_width,
+		cond = function()
+			return vim.o.columns > 100
+		end,
 	},
 	diagnostics = {
 		"diagnostics",
 		sources = { "nvim_diagnostic" },
 		symbols = {
-			error = icons.diagnostics.BoldError .. " ",
-			warn = icons.diagnostics.BoldWarning .. " ",
-			info = icons.diagnostics.BoldInformation .. " ",
-			hint = icons.diagnostics.BoldHint .. " ",
+			error = " ",
+			warn = " ",
+			info = " ",
+			hint = " ",
 		},
-		-- cond = conditions.hide_in_width,
-	},
-	treesitter = {
-		function()
-			return icons.ui.Tree
+		cond = function()
+			return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
 		end,
-		color = function()
-			local buf = vim.api.nvim_get_current_buf()
-			local ts = vim.treesitter.highlighter.active[buf]
-			return { fg = ts and not vim.tbl_isempty(ts) and colors.green or colors.red }
-		end,
-		cond = conditions.hide_in_width,
 	},
 	lsp = {
 		function()
@@ -123,10 +99,9 @@ return {
 			end
 
 			if copilot_active then
-				table.insert(buf_client_names, "%#SLCopilot#" .. " " .. icons.git.Octoface .. "%*")
+				table.insert(buf_client_names, "%#SLCopilot#" .. " %*")
 			end
 
-			-- TODO: Add an icon to indicate formatter. Recommend nerd font entry f08df
 			-- add formatter
 			local buf_formatters = {}
 			local supported_formatters = require("conform").list_formatters(0)
@@ -137,7 +112,6 @@ return {
 
 			-- add linter
 
-			-- TODO: Add an icon to indicate linters. Maybe nerd font f11c0
 			local buf_linters = {}
 			local supported_linters = {}
 			if require("lint")["get_running"] ~= nil and type(require("lint")["get_running"]) == "function" then
@@ -149,30 +123,32 @@ return {
 
 			local lsp_str = ""
 			if #buf_client_names == 0 then
-				lsp_str = icons.lsp.lsp .. " n/a"
+				lsp_str = "󱓓 n/a"
 			else
-				lsp_str = icons.lsp.lsp .. " " .. table.concat(buf_client_names, ", ")
+				lsp_str = "󱓓 " .. table.concat(buf_client_names, ", ")
 			end
 
 			local format_str = ""
 			if #buf_formatters == 0 then
-				format_str = icons.lsp.formatter .. " n/a"
+				format_str = "󰣟 n/a"
 			else
-				format_str = icons.lsp.formatter .. " " .. table.concat(buf_formatters, ", ")
+				format_str = "󰣟 " .. table.concat(buf_formatters, ", ")
 			end
 
 			local lint_str = ""
 			if #buf_linters == 0 then
-				lint_str = icons.lsp.linter .. " n/a"
+				lint_str = "󱇀 n/a"
 			else
-				lint_str = icons.lsp.linter .. " " .. table.concat(buf_linters, ", ")
+				lint_str = "󱇀 " .. table.concat(buf_linters, ", ")
 			end
 
 			local full_lsp_str = lsp_str .. " " .. format_str .. " " .. lint_str
 			return full_lsp_str
 		end,
 		color = { gui = "bold" },
-		cond = conditions.hide_in_width,
+		cond = function()
+			return vim.o.columns > 100
+		end,
 	},
 	location = { "location" },
 	progress = {
@@ -186,7 +162,7 @@ return {
 	spaces = {
 		function()
 			local shiftwidth = vim.api.nvim_buf_get_option(0, "shiftwidth")
-			return icons.ui.Tab .. " " .. shiftwidth
+			return "󰌒 " .. shiftwidth
 		end,
 		padding = 1,
 	},
@@ -194,7 +170,9 @@ return {
 		"o:encoding",
 		fmt = string.upper,
 		color = {},
-		cond = conditions.hide_in_width,
+		cond = function()
+			return vim.o.columns > 100
+		end,
 	},
 	filetype = { "filetype", cond = nil, padding = { left = 1, right = 1 } },
 	scrollbar = {
