@@ -22,15 +22,18 @@ return {
 			},
 			format_on_save = {
 				lsp_fallback = true,
-				async = false,
-				timeout_ms = 1000,
 			},
 		})
-		vim.keymap.set({ "n", "v" }, "<leader>cF", function()
+		vim.keymap.set({ "n", "v" }, "<leader>cf", function()
 			require("conform").format({
 				lsp_fallback = true,
 				async = false,
 				timeout_ms = 1000,
+			})
+		end, { desc = "Format" })
+		vim.keymap.set({ "n", "v" }, "<leader>cF", function()
+			require("conform").format({
+				lsp_fallback = true,
 				formatters = { "injected" },
 			})
 		end, { desc = "Format Injected Langs" })
@@ -44,8 +47,6 @@ return {
 				require("conform").setup({
 					format_on_save = {
 						lsp_fallback = true,
-						async = false,
-						timeout_ms = 1000,
 					},
 				})
 				print("Enabled autoformatting")
