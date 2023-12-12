@@ -3,6 +3,8 @@ return {
 
 	"folke/neodev.nvim",
 
+	{ "numToStr/Comment.nvim", opts = {} },
+
 	"nvim-lua/plenary.nvim", -- lua functions that many plugins use
 
 	"nvim-tree/nvim-web-devicons", -- better icons for NeoTree
