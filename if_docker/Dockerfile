@@ -1,5 +1,5 @@
 ###############################     Base    #################################################
-FROM alpine:3.18 as prod
+FROM alpine:3.18 as base
 
 ARG UID=1000
 ARG GID=1000
@@ -9,15 +9,14 @@ ENV GDM_LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
 WORKDIR /app
-COPY app/. .
 RUN addgroup -g ${GID} app \
     && adduser -D -u ${UID} -G app -s /bin/bash app \
     && chmod 777 /tmp \
     && apk add -U py3-pip npm\
+    && mkdir -p /app/node_modules\
     && chown -R app:app /app
 
 USER app:app
-COPY requirements.txt /tmp
 RUN python3 -m venv /home/app/.venv \
     && cat <<EOF > /home/app/.bash_profile 
 # .bash_profile
@@ -30,10 +29,14 @@ fi
 # User specific environment and startup programs
 EOF
 
+COPY requirements.txt /tmp
 RUN source /home/app/.venv/bin/activate\
     && pip3 install -r /tmp/requirements.txt && rm /tmp/requirements.txt
 
+###############################     Prod    #################################################
+FROM base as prod
 
+COPY app/. .
 RUN if [[ -s package.json ]]; then\
         npm install;\
     fi
@@ -41,16 +44,10 @@ RUN if [[ -s package.json ]]; then\
 CMD ["node", "app.js"]
 
 #############################   Development   ################################################
-FROM prod as dev
+FROM base as dev
 
 USER root
 
-#procps provides proper 'ps' command (needed for nvim tmux navigator
-#coreutils provides proper 'env' command (needed for using neovim as its own lua interpretter in debugging)
-#stylua because the version available in mason isn't compatible with musl
-#unzip, gzip, fd, mercurial, wget all for passing :checkhealth
-#openssh is for git
-#ripgrep is for Telescope
 RUN apk add git\ 
          lua-dev luarocks stylua\
          lazygit openssh\
@@ -61,8 +58,7 @@ RUN apk add git\
          alpine-sdk\
          tree-sitter tree-sitter-cli\
          wl-clipboard\
-         sudo\
-         coreutils\
+         sudo \
          unzip gzip fd mercurial wget\
     && npm install -g neovim\
     && mkdir -p /etc/sudoers.d && echo 'app ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/app \
@@ -83,7 +79,13 @@ if [[ ! -x /home/app/.local/share/nvim/lazy/nvim-treesitter/parser/markdown.so ]
         PID=\$(ps aux | grep 'nvim --headless -c TSInstall! markdown' | grep -v grep | awk '{print \$2}')
         kill \$PID
         echo "You may now start neovim. Additional LSPs, formatters, and linters may install on startup."
-        echo "Once there is no longer feedback that new tools are installing, we recommend restarting neovim one mor time."
+        echo "Once there is no longer feedback that new tools are installing, we recommend restarting neovim one more time."
+    fi
+fi
+if [[ -d /app/node_modules ]]; then
+    size_of=\$(du /app/node_modules | tail -n 1 | awk {'print \$1'})
+    if [[ \$size_of -eq 0 ]]; then
+        echo -e "\\n\\tNode modules folder is empty. You may need to run 'npm i'\\n"
     fi
 fi
 EOF
