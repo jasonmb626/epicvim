@@ -174,7 +174,9 @@ return {
 			return vim.o.columns > 100
 		end,
 	},
-	filetype = { "filetype", cond = nil, padding = { left = 1, right = 1 } },
+	filetype = {
+		"filetype", --[[cond = nil, padding = { left = 1, right = 1 }]]
+	},
 	scrollbar = {
 		function()
 			local current_line = vim.fn.line(".")
