@@ -28,7 +28,7 @@ return {
 		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 		vim.keymap.set("n", "<leader>Sp", function()
-			if vim.g.autopairs ~= nil and vim.g.autopairs == true then
+			if vim.g.autopairs == true then
 				vim.g.autopairs = false
 				require("nvim-autopairs").enable()
 				print("Autopairs enabled")

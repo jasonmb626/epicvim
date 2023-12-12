@@ -114,7 +114,7 @@ return {
 
 			local buf_linters = {}
 			local supported_linters = {}
-			if require("lint")["get_running"] ~= nil and type(require("lint")["get_running"]) == "function" then
+			if type(require("lint")["get_running"]) == "function" then
 				supported_linters = require("lint").get_running()
 			else
 				supported_linters = { "u/k" }
