@@ -42,8 +42,9 @@ return {
 				dashboard.button("q", " " .. " Quit", "<cmd> qa <cr>"),
 			}
 			for _, button in ipairs(dashboard.section.buttons.val) do
-				button.opts.hl = "Question"
-				button.opts.hl_shortcut = "Question"
+				button.opts.hl = "markdownH4"
+				-- button.opts.hl_shortcut = "Error"
+				button.opts.hl_shortcut = "@warning"
 			end
 			-- to get a list of available hl options type :hl
 			dashboard.section.header.opts.hl = "@text.title"
