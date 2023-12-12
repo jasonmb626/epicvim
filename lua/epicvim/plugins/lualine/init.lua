@@ -27,6 +27,7 @@ local function setup_lualine()
 			lualine_a = {
 				"fileformat",
 				"encoding",
+				components.spaces,
 			},
 			lualine_b = {
 				components.branch,
@@ -38,7 +39,6 @@ local function setup_lualine()
 			lualine_x = {
 				components.diagnostics,
 				components.lsp,
-				components.spaces,
 				{ "filetype" },
 			},
 			lualine_y = { components.location },
