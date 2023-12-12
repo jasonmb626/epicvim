@@ -1,8 +1,6 @@
-local opt = vim.opt
-
 vim.g.python3_host_prog = "/home/app/.venv/bin/python3"
-vim.opt.spelllang = "en_us"
-vim.opt.spell = true
+vim.o.spelllang = "en_us"
+vim.o.spell = true
 
 -- Make sure to set `mapleader` before lazy so your mappings are correct
 vim.g.mapleader = " "
@@ -11,44 +9,43 @@ vim.g.autoformat = true
 vim.g.autopairs = true
 
 -- Tab / Indent
-opt.tabstop = 2
-opt.shiftwidth = 2
-opt.softtabstop = 2
-opt.expandtab = true
-opt.smartindent = true
-opt.wrap = false
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
+vim.o.expandtab = true
+vim.o.smartindent = true
+vim.o.wrap = false
 
 -- Search
-opt.incsearch = true
-opt.ignorecase = true
-opt.smartcase = true
-opt.hlsearch = true
+vim.o.incsearch = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.hlsearch = true
 
 -- Appearance
-opt.number = true
-opt.relativenumber = true
-opt.termguicolors = true
-opt.colorcolumn = "100"
-opt.signcolumn = "yes"
-opt.cmdheight = 1
-opt.scrolloff = 10
-opt.completeopt = "menuone,noinsert,noselect"
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.termguicolors = true
+vim.o.colorcolumn = "100"
+vim.o.signcolumn = "yes"
+vim.o.cmdheight = 1
+vim.o.scrolloff = 10
+vim.o.completeopt = "menuone,noinsert,noselect"
 
 -- Behaviour
-opt.hidden = true
-opt.errorbells = false
-opt.swapfile = false
-opt.backup = false
-opt.undodir = vim.fn.expand("~/.local/share/nvim/undodir")
-opt.undofile = true
-opt.backspace = "indent,eol,start"
-opt.splitright = true
-opt.splitbelow = true
-opt.autochdir = false
-opt.iskeyword:append("-")
-opt.mouse:append("a")
---opt.clipboard:append("unnamedplus")
-opt.modifiable = true
-opt.guicursor =
+vim.o.hidden = true
+vim.o.errorbells = false
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.undodir = vim.fn.expand("~/.local/share/nvim/undodir")
+vim.o.undofile = true
+vim.o.backspace = "indent,eol,start"
+vim.o.splitright = true
+vim.o.splitbelow = true
+vim.o.autochdir = false
+vim.o.modifiable = true
+vim.o.guicursor =
 	"n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
-opt.encoding = "UTF-8"
+vim.o.encoding = "UTF-8"
+vim.opt.iskeyword:append("-")
+vim.opt.mouse:append("a")
