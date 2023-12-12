@@ -45,6 +45,12 @@ FROM prod as dev
 
 USER root
 
+#procps provides proper 'ps' command (needed for nvim tmux navigator
+#coreutils provides proper 'env' command (needed for using neovim as its own lua interpretter in debugging)
+#stylua because the version available in mason isn't compatible with musl
+#unzip, gzip, fd, mercurial, wget all for passing :checkhealth
+#openssh is for git
+#ripgrep is for Telescope
 RUN apk add git\ 
          lua-dev luarocks stylua\
          lazygit openssh\
@@ -55,7 +61,8 @@ RUN apk add git\
          alpine-sdk\
          tree-sitter tree-sitter-cli\
          wl-clipboard\
-         sudo \
+         sudo\
+         coreutils\
          unzip gzip fd mercurial wget\
     && npm install -g neovim\
     && mkdir -p /etc/sudoers.d && echo 'app ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/app \
