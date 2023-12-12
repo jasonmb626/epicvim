@@ -58,6 +58,12 @@ vim.keymap.set("n", "<leader>cR", ":LspRestart<cr>", { desc = "Restart LSP" })
 
 -- +Find/Files <leader>f
 -- TODO: There are other bufferline options worth exploring
+vim.keymap.set("n", "<leader>fF", function()
+	vim.ui.select({ "dos", "unix", "mac" }, {}, function(selection)
+		print(selection)
+		vim.cmd("set fileformat=" .. selection)
+	end)
+end, { desc = "Change file format (line ending format)" })
 vim.keymap.set("n", "<leader>fn", ":enew<cr>", { desc = "New File/Buffer" })
 vim.keymap.set("n", "<leader>fo", ":e #<cr>", { desc = "Switch to Other Buffer" })
 vim.keymap.set("n", "<leader>fW", ":noautocmd w<cr>", { desc = "Save without formatting (no autocmd)" })

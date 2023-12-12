@@ -52,6 +52,6 @@ return {
 		})
 		vim.keymap.set("n", "<leader>fc", ":NvimTreeCollapse<cr>", { desc = "Collapse file explorer" })
 		vim.keymap.set("n", "<leader>fe", ":NvimTreeToggle<cr>", { desc = "Toggle file explorer" })
-		vim.keymap.set("n", "<leader>fF", ":NvimTreeFindFile<cr>", { desc = "File explorer on current file" })
+		vim.keymap.set("n", "<leader>ft", ":NvimTreeFindFile<cr>", { desc = "File explorer on this file" })
 	end,
 }
