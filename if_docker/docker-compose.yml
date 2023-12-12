@@ -12,6 +12,8 @@ services:
     restart: always
     volumes:
       - ./app:/app:z
+      - node_modules:/app/node_modules
+        #      - node_modules2:/app/frontend/node_modules
       - dotlocal:/home/app/.local
       - ~/.config/nvim:/home/app/.config/nvim:z
       - ~/.config/tmux:/home/app/.config/tmux:z
@@ -32,3 +34,5 @@ services:
         #      - label:type:container_runtime_t
 volumes:
   dotlocal:
+  node_modules:
+    #  node_modules2:
