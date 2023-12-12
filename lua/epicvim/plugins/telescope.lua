@@ -3,6 +3,7 @@ return {
 	branch = "0.1.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
+		"nvim-telescope/telescope-project.nvim",
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		{
 			"nvim-telescope/telescope-live-grep-args.nvim",
@@ -88,6 +89,7 @@ return {
 		telescope.load_extension("undo")
 		telescope.load_extension("advanced_git_search")
 		telescope.load_extension("live_grep_args")
+		telescope.load_extension("project")
 
 		vim.keymap.set("n", "gR", require("telescope.builtin").lsp_references, { desc = "show definition, references" })
 		vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "show lsp definitions" })
