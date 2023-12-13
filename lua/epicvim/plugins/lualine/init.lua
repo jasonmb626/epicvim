@@ -20,8 +20,9 @@ local function setup_lualine()
 			theme = nordtheme,
 			globalstatus = true,
 			icons_enabled = true,
-			component_separators = {},
 			disabled_filetypes = { statusline = { "alpha" } },
+			section_separators = { left = "", right = "" },
+			component_separators = { left = "", right = "" },
 		},
 		sections = {
 			lualine_a = {
