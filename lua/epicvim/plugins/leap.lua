@@ -1,26 +1,15 @@
-local opts = {
-	opts = {
-		highlight_ahead_of_time = true,
-		highlight_unlabeled = false,
-		case_sensitive = false,
-		special_keys = {
-			repeat_search = "<enter>",
-			next_phase_one_target = "<enter>",
-			next_target = { "<enter>", ";" },
-			prev_target = { "<tab>", "," },
-			next_group = "<space>",
-			prev_group = "<tab>",
-			multi_accept = "<enter>",
-			multi_revert = "<backspace>",
-		},
-	},
-}
-
 return {
 	"ggandor/leap.nvim",
-	opts = opts,
 	config = function()
 		require("leap").add_default_mappings()
+		require("leap").add_repeat_mappings(";", ",", {
+			-- False by default. If set to true, the keys will work like the
+			-- native semicolon/comma, i.e., forward/backward is understood in
+			-- relation to the last motion.
+			relative_directions = true,
+			-- By default, all modes are included.
+			modes = { "n", "x", "o" },
+		})
 	end,
 	event = "BufReadPre",
 	dependencies = { "tpope/vim-repeat" },
