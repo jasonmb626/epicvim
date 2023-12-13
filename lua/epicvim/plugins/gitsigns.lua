@@ -73,6 +73,7 @@ return {
 					return "<Ignore>"
 				end, { expr = true })
 
+				-- Actions
 				vim.keymap.set("n", "]h", require("gitsigns").next_hunk, { desc = "Next Hunk" })
 				vim.keymap.set("n", "[h", require("gitsigns").prev_hunk, { desc = "Prev Hunk" })
 				vim.keymap.set("n", "<leader>vB", require("gitsigns").blame_line, { desc = "Blame" })
@@ -84,6 +85,22 @@ return {
 				vim.keymap.set("n", "<leader>vr", require("gitsigns").reset_hunk, { desc = "Reset Hunk" })
 				vim.keymap.set("n", "<leader>vs", require("gitsigns").stage_hunk, { desc = "Stage Hunk" })
 				vim.keymap.set("n", "<leader>vu", require("gitsigns").undo_stage_hunk, { desc = "Undo Stage Hunk" })
+
+				-- Text object
+				vim.keymap.set({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+
+				vim.keymap.set("n", "<leader>SB", function()
+					local config = require("gitsigns.config").config
+					local actions = require("gitsigns.actions")
+					local status = config.current_line_blame
+					status = not status
+					actions.toggle_current_line_blame(status)
+					if status then
+						print("Curent line blame enabled")
+					else
+						print("Curent line blame disabled")
+					end
+				end, { desc = "Toggle current line blame" })
 			end,
 		})
 	end,
