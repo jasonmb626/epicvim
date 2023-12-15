@@ -47,7 +47,7 @@ return {
 				button.opts.hl_shortcut = "@warning"
 			end
 			-- to get a list of available hl options type :hl
-			dashboard.section.header.opts.hl = "@text.title"
+			dashboard.section.header.opts.hl = "@type"
 			return dashboard
 		end,
 		config = function(_, dashboard)
