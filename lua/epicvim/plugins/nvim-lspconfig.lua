@@ -130,12 +130,23 @@ return {
 			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
 		})
 
-		-- configure python server
-		lspconfig["pyright"].setup({
+		lspconfig["pylsp"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = { "python" },
 		})
+
+		-- configure python server
+		-- lspconfig["pyright"].setup({
+		-- 	capabilities = capabilities,
+		-- 	on_attach = on_attach,
+		-- 	settings = {
+		-- 		python = {
+		-- 			venvpath = "/home/app/.venv/",
+		-- 		},
+		-- 	},
+		-- 	filetypes = { "python" },
+		-- })
 
 		-- configure lua server (with special settings)
 		lspconfig["lua_ls"].setup({
