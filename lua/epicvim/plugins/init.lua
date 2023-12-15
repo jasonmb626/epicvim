@@ -22,27 +22,34 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		config = true,
 	},
+	{ "bluz71/vim-moonfly-colors", name = "moonfly", lazy = false, priority = 1000 },
+	-- {
+	-- 	"rmehri01/onenord.nvim",
+	-- 	priority = 1000, -- make sure to load this before all the other start plugins
+	-- 	config = function()
+	-- 		-- load the colorscheme here
+	-- 		require("onenord").setup({
+	-- 			disable = {
+	-- 				background = true,
+	-- 			},
+	-- 		})
+	-- 		-- vim.cmd([[colorscheme onenord]])
+	-- 	end,
+	-- },
 	{
-		"rmehri01/onenord.nvim",
-		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			-- load the colorscheme here
-			require("onenord").setup({
-				disable = {
-					background = true,
-				},
-			})
-			vim.cmd([[colorscheme onenord]])
-		end,
+		"bluz71/vim-nightfly-colors",
+		name = "nightfly",
+		lazy = false,
+		priority = 1000,
 	},
-	{
-		"Tsuzat/NeoSolarized.nvim",
-		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			--vim.cmd [[ colorscheme NeoSolarized ]]
-		end,
-	},
+	-- {
+	-- 	"Tsuzat/NeoSolarized.nvim",
+	-- 	lazy = false, -- make sure we load this during startup if it is your main colorscheme
+	-- 	priority = 1000, -- make sure to load this before all the other start plugins
+	-- 	config = function()
+	-- 		--vim.cmd [[ colorscheme NeoSolarized ]]
+	-- 	end,
+	-- },
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",

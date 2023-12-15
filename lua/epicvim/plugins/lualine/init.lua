@@ -1,7 +1,8 @@
 local components = require("epicvim.plugins.lualine.components")
 
 local function setup_lualine()
-	local nordtheme = require("lualine.themes.nord")
+	-- local nordtheme = require("lualine.themes.nord")
+	local nightfly = require("lualine.themes.nightfly")
 	if #vim.api.nvim_list_uis() == 0 then
 		local log = require("structlog")
 		local logger = log.get_logger("epic_logger")
@@ -17,7 +18,7 @@ local function setup_lualine()
 	lualine.setup({
 		style = "epicvim",
 		options = {
-			theme = nordtheme,
+			theme = nightfly,
 			globalstatus = true,
 			icons_enabled = true,
 			disabled_filetypes = { statusline = { "alpha" } },
