@@ -34,7 +34,8 @@ return {
 				"cssls",
 				"tailwindcss",
 				"emmet_ls",
-				"pyright",
+				-- "pyright",
+				"pylsp",
 				"lua_ls",
 			},
 			-- auto-install configured servers (with lspconfig)
@@ -47,7 +48,6 @@ return {
 				"isort", -- python formatter
 				"autopep8", -- python formatter
 				"black", -- python formatter
-				"pylint", -- python linter
 				"eslint_d", -- js linter
 				"prettier", -- prettier formatter
 			},
