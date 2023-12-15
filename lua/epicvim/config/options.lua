@@ -1,4 +1,4 @@
-vim.g.python3_host_prog = "/home/app/.venv/bin/python3"
+vim.g.python3_host_prog = "/home/app/.venvs/app/bin/python"
 vim.o.spelllang = "en_us"
 vim.o.spell = true
 
@@ -31,6 +31,8 @@ vim.o.signcolumn = "yes"
 vim.o.cmdheight = 1
 vim.o.scrolloff = 10
 vim.o.completeopt = "menuone,noinsert,noselect"
+vim.o.cursorline = true
+vim.o.background = "dark"
 
 -- Behaviour
 vim.o.hidden = true
