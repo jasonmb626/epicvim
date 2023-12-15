@@ -17,7 +17,7 @@ RUN addgroup -g ${GID} app \
     && chown -R app:app /app
 
 USER app:app
-RUN python3 -m venv /home/app/.venv \
+RUN python3 -m venv /home/app/.venvs/app \
     && cat <<EOF > /home/app/.bash_profile 
 # .bash_profile
 
@@ -30,7 +30,7 @@ fi
 EOF
 
 COPY requirements.txt /tmp
-RUN source /home/app/.venv/bin/activate\
+RUN source /home/app/.venvs/app/bin/activate\
     && pip3 install -r /tmp/requirements.txt && rm /tmp/requirements.txt
 
 ###############################     Prod    #################################################
@@ -68,7 +68,7 @@ RUN apk add git\
     && chown app:app /home/app/.local
 
 RUN cat <<EOF >/home/app/.bashrc 
-source /home/app/.venv/bin/activate
+source /home/app/.venvs/app/bin/activate
 if [[ ! -x /home/app/.local/share/nvim/lazy/nvim-treesitter/parser/markdown.so ]]; then
     if [[ -x /home/app/.config/nvim/if_docker/auto_install_dependencies.sh ]]; then
         /home/app/.config/nvim/if_docker/auto_install_dependencies.sh >/dev/null 2>&1
@@ -91,10 +91,10 @@ fi
 EOF
 
 COPY requirements-dev.txt /tmp
-RUN source /home/app/.venv/bin/activate\
+RUN source /home/app/.venvs/app/bin/activate\
     && pip3 install --upgrade pip \
     && pip3 install -r /tmp/requirements-dev.txt && rm /tmp/requirements-dev.txt\
-    && pip3 install pynvim\
+    && pip3 install pynvim pylint\
     && git clone https://github.com/tmux-plugins/tpm /home/app/.config/tmux/plugins/tpm \
     && git clone https://github.com/jasonmb626/epicvim.git /home/app/.config/nvim
 
