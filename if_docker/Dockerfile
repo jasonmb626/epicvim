@@ -69,6 +69,11 @@ RUN apk add git\
 
 RUN cat <<EOF >/home/app/.bashrc 
 source /home/app/.venvs/app/bin/activate
+mkdir -p /home/app/.local/share/tmux/plugins/
+if [[ "\$(ls -1 /home/app/.local/share/tmux/plugins/ | wc -l )" -eq 0 ]]; then
+    /home/app/.config/tmux/plugins/tpm/scripts/install_plugins.sh
+    tmux source ~/.config/tmux/tmux.conf
+fi
 if [[ ! -x /home/app/.local/share/nvim/lazy/nvim-treesitter/parser/markdown.so ]]; then
     if [[ -x /home/app/.config/nvim/if_docker/auto_install_dependencies.sh ]]; then
         /home/app/.config/nvim/if_docker/auto_install_dependencies.sh >/dev/null 2>&1
@@ -95,6 +100,7 @@ RUN source /home/app/.venvs/app/bin/activate\
     && pip3 install --upgrade pip \
     && pip3 install -r /tmp/requirements-dev.txt && rm /tmp/requirements-dev.txt\
     && pip3 install pynvim pylint\
+    && mkdir -p /home/app/.config/tmux/plugins && chown app:app /home/app/.config/tmux/plugins/ \
     && git clone https://github.com/tmux-plugins/tpm /home/app/.config/tmux/plugins/tpm \
     && git clone https://github.com/jasonmb626/epicvim.git /home/app/.config/nvim
 
