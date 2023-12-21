@@ -15,6 +15,8 @@ return {
 		vim.keymap.set("n", "<leader>fp", ":BufferLineTogglePin<cr>", { desc = "Toggle Pin" })
 		vim.keymap.set("n", "<leader>fP", ":BufferLineGroupClose ungrouped<cr>", { desc = "Close non-pinned buffers" })
 		vim.keymap.set("n", "<leader>fT", ":BufferLineSortByExtension<cr>", { desc = "Sort by type (File extension)" })
+		vim.keymap.set("n", "<M-h>", ":BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
+		vim.keymap.set("n", "<M-l>", ":BufferLineCycleNext<cr>", { desc = "Next buffer" })
 		vim.keymap.set("n", "<M-u>", function()
 			require("bufferline").go_to(1, true)
 		end, { desc = "Jump to 1st buffer" })
