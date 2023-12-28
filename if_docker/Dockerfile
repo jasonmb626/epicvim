@@ -7,6 +7,7 @@ ARG GID=1000
 #These (esp the LANG variable) make sure tmux outputs UTF-8. Needed for special chars
 ENV GDM_LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
+ENV HISTFILE=/home/app/.local/share/bash/bash_history
 
 WORKDIR /app
 RUN addgroup -g ${GID} app \
@@ -69,6 +70,7 @@ RUN apk add git\
 
 RUN cat <<EOF >/home/app/.bashrc 
 source /home/app/.venvs/app/bin/activate
+mkdir -p /home/app/.local/share/bash
 mkdir -p /home/app/.local/share/tmux/plugins/
 if [[ "\$(ls -1 /home/app/.local/share/tmux/plugins/ | wc -l )" -eq 0 ]]; then
     /home/app/.config/tmux/plugins/tpm/scripts/install_plugins.sh
