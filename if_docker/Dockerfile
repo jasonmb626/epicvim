@@ -90,7 +90,7 @@ fi
 if [[ -d /app/node_modules ]]; then
     size_of=\$(du /app/node_modules | tail -n 1 | awk {'print \$1'})
     if [[ \$size_of -eq 0 ]]; then
-        echo -e "\\n\\tNode modules folder is empty. You may need to run 'npm i'\\n"
+        echo -e "\\n\\tNode modules folder is empty. If this is a node project you may need to run 'npm i'\\n"
     fi
 fi
 EOF
