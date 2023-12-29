@@ -45,7 +45,6 @@ return {
 		mason_tool_installer.setup({
 			ensure_installed = {
 				"debugpy",
-				"isort", -- python formatter
 				"autopep8", -- python formatter
 				"black", -- python formatter
 				"eslint_d", -- js linter
