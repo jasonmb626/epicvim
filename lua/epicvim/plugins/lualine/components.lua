@@ -114,11 +114,7 @@ return {
 
 			local buf_linters = {}
 			local supported_linters = {}
-			if type(require("lint")["get_running"]) == "function" then
-				supported_linters = require("lint").get_running()
-			else
-				supported_linters = { "u/k" }
-			end
+			supported_linters = require("lint").linters_by_ft[vim.bo.filetype]
 			vim.list_extend(buf_linters, supported_linters)
 
 			local lsp_str = ""
@@ -137,9 +133,9 @@ return {
 
 			local lint_str = ""
 			if #buf_linters == 0 then
-				lint_str = "󱇀 n/a"
+				lint_str = "󱉶 n/a"
 			else
-				lint_str = "󱇀 " .. table.concat(buf_linters, ", ")
+				lint_str = "󱉶 " .. table.concat(buf_linters, ", ")
 			end
 
 			local full_lsp_str = lsp_str .. " " .. format_str .. " " .. lint_str
