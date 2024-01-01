@@ -59,8 +59,15 @@ vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
 --TODO is this built into neovim?
 vim.keymap.set("n", "<leader>cR", ":LspRestart<cr>", { desc = "Restart LSP" })
 
--- +Find/Files <leader>f
+-- +Files <leader>f
 -- TODO: There are other bufferline options worth exploring
+vim.keymap.set("n", "<leader>fd", function()
+  if vim.api.nvim_win_get_option(0, "diff") then
+    vim.cmd("diffoff")
+  else
+    vim.cmd("diffthis")
+  end
+end, { desc = "Toggle diff for window" })
 vim.keymap.set("n", "<leader>fF", function()
   vim.ui.select({ "dos", "unix", "mac" }, {}, function(selection)
     print(selection)
