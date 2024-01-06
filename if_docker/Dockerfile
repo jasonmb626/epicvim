@@ -63,10 +63,10 @@ RUN apk add git\
          unzip gzip fd mercurial wget\
     && npm install -g neovim\
     && mkdir -p /etc/sudoers.d && echo 'app ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/app \
-    && mkdir -p /home/app/.config \
-    && chown app:app /home/app/.config\
+    && mkdir -p /home/app/.config/tmux \
+    && chown -R app:app /home/app/.config\
     && mkdir -p /home/app/.local \
-    && chown app:app /home/app/.local
+    && chown -R app:app /home/app/.local
 
 RUN cat <<EOF >/home/app/.bashrc 
 source /home/app/.venvs/app/bin/activate
@@ -104,6 +104,9 @@ RUN source /home/app/.venvs/app/bin/activate\
     && pip3 install pynvim pylint\
     && mkdir -p /home/app/.config/tmux/plugins && chown app:app /home/app/.config/tmux/plugins/ \
     && git clone https://github.com/tmux-plugins/tpm /home/app/.config/tmux/plugins/tpm \
-    && git clone https://github.com/jasonmb626/epicvim.git /home/app/.config/nvim
+    && git clone https://github.com/jasonmb626/epicvim.git /home/app/.config/nvim \
+    && curl https://raw.githubusercontent.com/jasonmb626/dotfiles-dev/main/tmux/tmux.conf | \
+    sed 's/set -g prefix C-a/set -g prefix C-x/' | \
+    sed 's/bind-key C-a send-prefix/bind-key C-x send-prefix/' > /home/app/.config/tmux/tmux.conf
 
 CMD ["tmux"]
