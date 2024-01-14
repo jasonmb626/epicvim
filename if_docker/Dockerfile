@@ -12,13 +12,19 @@ ENV ZDOTDIR=/home/app/.config/zsh/
 ENV XDG_CACHE_HOME=/home/app/.local/cache
 
 WORKDIR /app
-RUN apk add -U py3-pip npm zsh\
-    && addgroup -g ${GID} app \
-    && adduser -D -u ${UID} -G app -s /bin/zsh app \
-    && chmod 777 /tmp \
-    && mkdir -p /app/node_modules\
-    && chown -R app:app /app \
-    && touch /run/sshd.pid && chmod 777 /run/sshd.pid
+RUN apk add -U py3-pip npm zsh \
+    && sed -i 's,root:x:0:0:root:/root:/bin/ash,root:x:0:0:root:/root:/bin/zsh,g' /etc/passwd
+
+RUN if [[ $UID -ne 0 ]]; then \
+    apk add -U py3-pip npm zsh\
+        && addgroup -g ${GID} app \
+        && adduser -D -u ${UID} -G app -s /bin/zsh app \
+        && chmod 777 /tmp \
+        && mkdir -p /app/node_modules\
+        && chown -R app:app /app \
+        && touch /run/sshd.pid && chmod 777 /run/sshd.pid \
+        && echo "app:*" | chpasswd -e; \
+    fi
 
 USER app:app
 RUN python3 -m venv /home/app/.venvs/app
@@ -28,7 +34,7 @@ RUN source /home/app/.venvs/app/bin/activate\
     && pip3 install -r /tmp/requirements.txt && rm /tmp/requirements.txt \
     && cat <<EOF >/tmp/zshrc_preamble
     SSHD_PID=\$(ps aux | grep sshd | grep -v grep | awk '{print \$2}')
-    if [[ "\$SSHD_PID" == "" ]]; then
+   if [[ "\$SSHD_PID" == "" ]]; then
       exec sudo /usr/sbin/sshd -D -e "\$@" &
     fi
     source /home/app/.venvs/app/bin/activate
@@ -72,9 +78,9 @@ CMD ["node", "app.js"]
 #############################   Development   ################################################
 FROM base as dev
 
-USER root
+USER root:root
 
-RUN apk add git\ 
+RUN apk add -U git\ 
          lua-dev luarocks stylua\
          lazygit openssh\
          tmux neovim neovim-doc\
@@ -95,8 +101,7 @@ RUN apk add git\
     && mkdir -p /home/app/.ssh && chown -R app:app /home/app/.ssh \
     && sed -i 's,#HostKey /etc/ssh/ssh_host_rsa_key,HostKey /home/app/.ssh/id_ed25519,' /etc/ssh/sshd_config \
     && echo "$AUPK" >/home/app/.ssh/authorized_keys \
-    && chown app:app /home/app/.ssh/authorized_keys && chmod 600 /home/app/.ssh/authorized_keys \
-    && echo "app:*" | chpasswd -e
+    && chown app:app /home/app/.ssh/authorized_keys && chmod 600 /home/app/.ssh/authorized_keys
 
 USER app:app
 COPY requirements-dev.txt /tmp
