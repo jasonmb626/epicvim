@@ -16,11 +16,13 @@ services:
       - dotlocal:/home/app/.local
       - ~/.config/nvim:/home/app/.config/nvim:z
       - ~/.gitconfig:/home/app/.gitconfig:ro
-      - ~/.ssh:/home/app/.ssh:z
+      - ~/.ssh/github_id_ed25519:/home/app/.ssh/github_id_ed25519:z
       - /etc/localtime:/etc/localtime:ro
       - $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/$WAYLAND_DISPLAY:z
     stdin_open: true
     tty: true
+    ports:
+      - "22:22"
     user: %UID%:%GID% #Replace with results of $(id -u) and $(id -g) if necessary
     environment:
       XDG_RUNTIME_DIR: /tmp

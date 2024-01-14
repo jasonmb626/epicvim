@@ -3,11 +3,11 @@ FROM alpine:3.18 as base
 
 ARG UID=1000
 ARG GID=1000
+ARG AUPK="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIECZKhE/oPWLgBXE44YSUD4hSG3n4TVfg4CuMrDDRTht docker"
 
 #These (esp the LANG variable) make sure tmux outputs UTF-8. Needed for special chars
 ENV GDM_LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
-ENV HISTFILE=/home/app/.local/share/bash/bash_history
 ENV ZDOTDIR=/home/app/.config/zsh/
 ENV XDG_CACHE_HOME=/home/app/.local/cache
 
@@ -17,14 +17,47 @@ RUN apk add -U py3-pip npm zsh\
     && adduser -D -u ${UID} -G app -s /bin/zsh app \
     && chmod 777 /tmp \
     && mkdir -p /app/node_modules\
-    && chown -R app:app /app
+    && chown -R app:app /app \
+    && touch /run/sshd.pid && chmod 777 /run/sshd.pid
 
 USER app:app
 RUN python3 -m venv /home/app/.venvs/app
 
 COPY requirements.txt /tmp
 RUN source /home/app/.venvs/app/bin/activate\
-    && pip3 install -r /tmp/requirements.txt && rm /tmp/requirements.txt
+    && pip3 install -r /tmp/requirements.txt && rm /tmp/requirements.txt \
+    && cat <<EOF >/tmp/zshrc_preamble
+    SSHD_PID=\$(ps aux | grep sshd | grep -v grep | awk '{print \$2}')
+    if [[ "\$SSHD_PID" == "" ]]; then
+      exec sudo /usr/sbin/sshd -D -e "\$@" &
+    fi
+    source /home/app/.venvs/app/bin/activate
+    mkdir -p /home/app/.local/share/zsh
+    mkdir -p /home/app/.local/share/tmux/plugins/
+    if [[ "\$(ls -1 /home/app/.local/share/tmux/plugins/ | wc -l )" -eq 0 ]]; then
+        /home/app/.config/tmux/plugins/tpm/scripts/install_plugins.sh
+        tmux source ~/.config/tmux/tmux.conf
+    fi
+    if [[ ! -x /home/app/.local/share/nvim/lazy/nvim-treesitter/parser/markdown.so ]]; then
+        if [[ -x /home/app/.config/nvim/if_docker/auto_install_dependencies.sh ]]; then
+            /home/app/.config/nvim/if_docker/auto_install_dependencies.sh >/dev/null 2>&1
+            echo "\nNeovim packages are installing in the background. Please wait before starting up neovim."
+            echo "This usually happens only on a fresh install."
+            echo "Sleeping 30 seconds."
+            sleep 30
+            PID=\$(ps aux | grep 'nvim --headless -c TSInstall! markdown' | grep -v grep | awk '{print \$2}')
+            kill \$PID
+            echo "You may now start neovim. Additional LSPs, formatters, and linters may install on startup."
+            echo "Once there is no longer feedback that new tools are installing, we recommend restarting neovim one more time."
+        fi
+    fi
+    if [[ -d /app/node_modules ]]; then
+        size_of=\$(du /app/node_modules | tail -n 1 | awk {'print \$1'})
+        if [[ \$size_of -eq 0 ]]; then
+            echo -e "\\n\\tNode modules folder is empty. If this is a node project you may need to run 'npm i'\\n"
+        fi
+    fi
+EOF
 
 ###############################     Prod    #################################################
 FROM base as prod
@@ -59,34 +92,11 @@ RUN apk add git\
     && chown -R app:app /home/app/.config\
     && mkdir -p /home/app/.local \
     && chown -R app:app /home/app/.local \
-    && cat <<EOF >/tmp/zshrc_preamble
-    source /home/app/.venvs/app/bin/activate
-    mkdir -p /home/app/.local/share/zsh
-    mkdir -p /home/app/.local/share/tmux/plugins/
-    if [[ "\$(ls -1 /home/app/.local/share/tmux/plugins/ | wc -l )" -eq 0 ]]; then
-        /home/app/.config/tmux/plugins/tpm/scripts/install_plugins.sh
-        tmux source ~/.config/tmux/tmux.conf
-    fi
-    if [[ ! -x /home/app/.local/share/nvim/lazy/nvim-treesitter/parser/markdown.so ]]; then
-        if [[ -x /home/app/.config/nvim/if_docker/auto_install_dependencies.sh ]]; then
-            /home/app/.config/nvim/if_docker/auto_install_dependencies.sh >/dev/null 2>&1
-            echo "\nNeovim packages are installing in the background. Please wait before starting up neovim."
-            echo "This usually happens only on a fresh install."
-            echo "Sleeping 30 seconds."
-            sleep 30
-            PID=\$(ps aux | grep 'nvim --headless -c TSInstall! markdown' | grep -v grep | awk '{print \$2}')
-            kill \$PID
-            echo "You may now start neovim. Additional LSPs, formatters, and linters may install on startup."
-            echo "Once there is no longer feedback that new tools are installing, we recommend restarting neovim one more time."
-        fi
-    fi
-    if [[ -d /app/node_modules ]]; then
-        size_of=\$(du /app/node_modules | tail -n 1 | awk {'print \$1'})
-        if [[ \$size_of -eq 0 ]]; then
-            echo -e "\\n\\tNode modules folder is empty. If this is a node project you may need to run 'npm i'\\n"
-        fi
-    fi
-EOF
+    && mkdir -p /home/app/.ssh && chown -R app:app /home/app/.ssh \
+    && sed -i 's,#HostKey /etc/ssh/ssh_host_rsa_key,HostKey /home/app/.ssh/id_ed25519,' /etc/ssh/sshd_config \
+    && echo "$AUPK" >/home/app/.ssh/authorized_keys \
+    && chown app:app /home/app/.ssh/authorized_keys && chmod 600 /home/app/.ssh/authorized_keys \
+    && echo "app:*" | chpasswd -e
 
 USER app:app
 COPY requirements-dev.txt /tmp
@@ -104,6 +114,7 @@ RUN source /home/app/.venvs/app/bin/activate\
     && /bin/zsh -c "source /home/app/.config/zsh/.zshrc" \
     && mv /home/app/.config/zsh/.zshrc /tmp/.zshrc \
     && cat /tmp/zshrc_preamble /tmp/.zshrc > /home/app/.config/zsh/.zshrc \
-    && rm /tmp/zshrc_preamble /tmp/.zshrc
+    && rm /tmp/zshrc_preamble /tmp/.zshrc \
+    && ssh-keygen -t ed25519 -f /home/app/.ssh/id_ed25519 -q -N "" -C dockercnt
 
 CMD ["tmux"]
