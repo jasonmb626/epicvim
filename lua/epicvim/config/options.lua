@@ -26,6 +26,8 @@ vim.o.hlsearch = true
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.termguicolors = true
+-- vim.g.nightflyTerminalColors = false
+vim.g.nightflyTransparent = true
 vim.o.colorcolumn = "100"
 vim.o.signcolumn = "yes"
 vim.o.cmdheight = 1
@@ -47,7 +49,7 @@ vim.o.splitbelow = true
 vim.o.autochdir = false
 vim.o.modifiable = true
 vim.o.guicursor =
-	"n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+"n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 vim.o.encoding = "UTF-8"
 vim.opt.iskeyword:append("-")
 vim.opt.mouse:append("a")
