@@ -33,7 +33,7 @@ return {
           background = true,
         },
       })
-    end,
+    end
   },
   {
     "bluz71/vim-nightfly-colors",
@@ -43,17 +43,17 @@ return {
   },
   {
     "Tsuzat/NeoSolarized.nvim",
-    lazy = false,   -- make sure we load this during startup if it is your main colorscheme
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       --vim.cmd [[ colorscheme NeoSolarized ]]
     end,
   },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    opts = {},
-  },
+  -- {
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   main = "ibl",
+  --   opts = {},
+  -- },
   {
     "windwp/nvim-ts-autotag",
     lazy = false,
