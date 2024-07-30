@@ -44,6 +44,7 @@ RUN source /home/app/.venvs/app/bin/activate\
         /home/app/.config/tmux/plugins/tpm/scripts/install_plugins.sh
         tmux source ~/.config/tmux/tmux.conf
     fi
+    sed -i 's^--vim.g.python3_host_prog = "/home/app/.venvs/app/bin/python"^vim.g.python3_host_prog = "/home/app/.venvs/app/bin/python"^'
     if [[ ! -x /home/app/.local/share/nvim/lazy/nvim-treesitter/parser/markdown.so ]]; then
         if [[ -x /home/app/.config/nvim/if_docker/auto_install_dependencies.sh ]]; then
             /home/app/.config/nvim/if_docker/auto_install_dependencies.sh >/dev/null 2>&1
