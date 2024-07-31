@@ -120,7 +120,7 @@ vim.keymap.set("n", "<leader>Sd", function()
   end
 end, { desc = "Toggle diagnostics" })
 if vim.lsp.inlay_hint then
-  vim.keymap.set("<leader>Sh", function()
+  vim.keymap.set("n", "<leader>Sh", function()
     vim.lsp.inlay_hint(0, nil)
   end, { desc = "Toggle Inlay Hints" })
 end
