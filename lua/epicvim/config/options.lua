@@ -1,4 +1,6 @@
-vim.g.python3_host_prog = "/home/app/.venvs/app/bin/python"
+if vim.fn.isdirectory('/home/app/.venvs/app/bin/python') ~= 0 then
+  vim.g.python3_host_prog = "/home/app/.venvs/app/bin/python"
+end
 vim.o.spelllang = "en_us"
 vim.o.spell = true
 
