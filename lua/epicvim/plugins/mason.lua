@@ -42,14 +42,18 @@ return {
 			automatic_installation = true, -- not the same as ensure_installed
 		})
 
+		local mason_tool_ensure_installed = {
+			"debugpy",
+			"autopep8", -- python formatter
+			"black", -- python formatter
+			"eslint_d", -- js linter
+			"prettier", -- prettier formatter
+		}
+		if vim.g.platform == "glibc" then
+			mason_tool_ensure_installed[#mason_tool_ensure_installed + 1] = "stylua"
+		end
 		mason_tool_installer.setup({
-			ensure_installed = {
-				"debugpy",
-				"autopep8", -- python formatter
-				"black", -- python formatter
-				"eslint_d", -- js linter
-				"prettier", -- prettier formatter
-			},
+			ensure_installed = mason_tool_ensure_installed,
 		})
 	end,
 	vim.keymap.set("n", "<leader>cm", ":Mason<cr>", { desc = "Mason" }),
