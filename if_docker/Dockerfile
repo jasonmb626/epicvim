@@ -1,5 +1,5 @@
 ###############################     Base    #################################################
-FROM alpine:3.18 as base
+FROM alpine:latest AS base
 
 ARG UID=1000
 ARG GID=1000
