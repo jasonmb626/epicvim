@@ -62,24 +62,24 @@ vim.keymap.set("n", "<leader>cR", ":LspRestart<cr>", { desc = "Restart LSP" })
 -- +Files <leader>f
 -- TODO: There are other bufferline options worth exploring
 vim.keymap.set("n", "<leader>fd", function()
-  if vim.api.nvim_win_get_option(0, "diff") then
-    vim.cmd("diffoff")
-  else
-    vim.cmd("diffthis")
-  end
+	if vim.api.nvim_win_get_option(0, "diff") then
+		vim.cmd("diffoff")
+	else
+		vim.cmd("diffthis")
+	end
 end, { desc = "Toggle diff for window" })
 vim.keymap.set("n", "<leader>fF", function()
-  vim.ui.select({ "dos", "unix", "mac" }, {}, function(selection)
-    print(selection)
-    vim.cmd("set fileformat=" .. selection)
-  end)
+	vim.ui.select({ "dos", "unix", "mac" }, {}, function(selection)
+		print(selection)
+		vim.cmd("set fileformat=" .. selection)
+	end)
 end, { desc = "Change file format (line ending format)" })
 vim.keymap.set("n", "<leader>fn", ":enew<cr>", { desc = "New File/Buffer" })
 vim.keymap.set("n", "<leader>fo", ":e #<cr>", { desc = "Switch to Other Buffer" })
 vim.keymap.set("n", "<leader>fW", ":noautocmd w<cr>", { desc = "Save without formatting (no autocmd)" })
 vim.keymap.set("n", "<leader>fx", require("epicvim.util.buffer").buf_kill, { desc = "Close Buffer" })
 vim.keymap.set("n", "<leader>fX", function()
-  require("epicvim.util.buffer").buf_kill(true)
+	require("epicvim.util.buffer").buf_kill(true)
 end, { desc = "Close Buffer (Force)" })
 -- +Go (actions) <leader>g
 
@@ -97,73 +97,79 @@ vim.keymap.set("n", "<leader>qq", ":qa<cr>", { desc = "Quit all" })
 
 -- +search <leader>s
 vim.keymap.set("n", "<leader>sK", function()
-  vim.cmd("enew")
-  vim.cmd(":put = execute('verbose map')")
+	vim.cmd("enew")
+	vim.cmd(":put = execute('verbose map')")
 end, { desc = "Verbose Key Maps" })
 vim.keymap.set("n", "<leader>sx", ":noh<cr><esc>", { desc = "Clear hlsearch" })
 
 -- +Set/Toggle Session Features <leader>S
 vim.keymap.set("n", "<leader>Sc", function()
-  vim.ui.select({ 0, 1, 2, 3 }, {}, function(selection)
-    vim.o.conceallevel = selection
-    print("Set conceallevel to " .. selection)
-  end)
+	vim.ui.select({ 0, 1, 2, 3 }, {}, function(selection)
+		vim.o.conceallevel = selection
+		print("Set conceallevel to " .. selection)
+	end)
 end, { desc = "Set Concellevel" })
 vim.keymap.set("n", "<leader>Sd", function()
-  local status = vim.diagnostic.is_disabled()
-  if status == false then
-    vim.diagnostic.disable()
-    print("Diagnostics disabled")
-  else
-    vim.diagnostic.enable()
-    print("Diagnostics enabled")
-  end
+	local status = vim.diagnostic.is_disabled()
+	if status == false then
+		vim.diagnostic.disable()
+		print("Diagnostics disabled")
+	else
+		vim.diagnostic.enable()
+		print("Diagnostics enabled")
+	end
 end, { desc = "Toggle diagnostics" })
 if vim.lsp.inlay_hint then
-  vim.keymap.set("n", "<leader>Sh", function()
-    vim.lsp.inlay_hint(0, nil)
-  end, { desc = "Toggle Inlay Hints" })
+	vim.keymap.set("n", "<leader>Sh", function()
+		vim.lsp.inlay_hint(0, nil)
+	end, { desc = "Toggle Inlay Hints" })
 end
 vim.keymap.set("n", "<leader>Sl", function()
-  local status = vim.o["number"]
-  status = not status
-  vim.o["number"] = status
-  if status == false then
-    vim.o["relativenumber"] = false
-  end
-  if status then
-    print("Line numbers enabled")
-  else
-    print("Line numbers disabled")
-  end
+	local status = vim.o["number"]
+	status = not status
+	vim.o["number"] = status
+	if status == false then
+		vim.o["relativenumber"] = false
+	end
+	if status then
+		print("Line numbers enabled")
+	else
+		print("Line numbers disabled")
+	end
 end, { desc = "Toggle Line Numbers" })
 vim.keymap.set("n", "<leader>Sr", function()
-  local status = vim.o["relativenumber"]
-  status = not status
-  vim.o["relativenumber"] = status
-  if status then
-    print("Relative line number enabled")
-  else
-    print("Relative line number disabled")
-  end
+	local status = vim.o["relativenumber"]
+	status = not status
+	vim.o["relativenumber"] = status
+	if status then
+		print("Relative line number enabled")
+	else
+		print("Relative line number disabled")
+	end
 end, { desc = "Toggle relative line numbers" })
 vim.keymap.set("n", "<leader>Ss", function()
-  local status = vim.opt["spell"]
-  status = not status
-  vim.opt["spell"] = status
-  if status then
-    print("Spell enabled")
-  else
-    print("Spell disabled")
-  end
+	local status = vim.opt["spell"]
+	status = not status
+	vim.opt["spell"] = status
+	if status then
+		print("Spell enabled")
+	else
+		print("Spell disabled")
+	end
 end, { desc = "Toggle Spelling" })
 vim.keymap.set("n", "<leader>Sw", function()
-  local status = vim.o["wrap"]
-  status = not status
-  vim.o["wrap"] = status
-  if status then
-    print("Wrap enabled")
-  else
-    print("Wrap disabled")
-  end
+	local status = vim.o["wrap"]
+	status = not status
+	vim.o["wrap"] = status
+	if status then
+		print("Wrap enabled")
+	else
+		print("Wrap disabled")
+	end
 end, { desc = "Toggle Word Wrap" })
+
+-- local log = require("plenary.log").new({
+-- 	plugin = "me",
+-- 	level = "info",
+-- })
+-- log.info(vim.inspect(require("neo-tree")))
